@@ -1,15 +1,12 @@
 Active Record
 =============
 
-[Active Record](http://en.wikipedia.org/wiki/Active_record_pattern) provides an object-oriented interface
-for accessing data stored in a database. An Active Record class is associated with a database table,
-an Active Record instance corresponds to a row of that table, and an attribute of an Active Record
-instance represents the value of a column in that row. Instead of writing raw SQL statements,
-you can work with Active Record in an object-oriented fashion to manipulate the data in database tables.
+El [Active Record](http://en.wikipedia.org/wiki/Active_record_pattern) (Registro Activo) provee de una interfaz de programación orientada a objetos para acceder a tablas en las base de datos. 
 
-For example, assume `Customer` is an Active Record class is associated with the `customer` table
-and `name` is a column of `customer` table. You can write the following code to insert a new
-row into `customer` table:
+Una clase Active Record está directamente asociada a una tabla de la base de datos, una instancia de la clase a una fila de la tabla vinculada, y un atributo de la instancia Active Record representa el valor de una columna en la fila. El patrón Active Record existe para que en vez de escribir sentencias SQL, puedas manipular los registros de las tablas en bases de datos, de una manera más orientada a objetos.
+
+Por ejemplo, asumiendo que `Customer` sea una clase Active Record que está asociada con la tabla `customer` y que `name` es una columna de la mencionada tabla. Podrías escribir el siguiente código para insertar una nueva fila en la tabla `customer`:  
+
 
 ```php
 $customer = new Customer();
@@ -17,38 +14,38 @@ $customer->name = 'Qiang';
 $customer->save();
 ```
 
-The above code is equivalent to using the following raw SQL statement, which is less
-intuitive, more error prone, and may have compatibility problem for different DBMS:
+El código sería equivalente a usar la siguiente sentencia SQL, la cual es mucho menos intuitiva, más propenso a errorres, y que quizás tenga un problema de incompatibilidad al utilizar diferentes sistemas de gestión de bases de datos (DBMS):
+
 
 ```php
 $db->createCommand('INSERT INTO customer (name) VALUES (:name)', [
     ':name' => 'Qiang',
 ])->execute();
 ```
+A continuación se muestra la lista de las bases de datos que actualmente están soportadas por el Active Record de Yii:
 
-Below is the list of databases that are currently supported by Yii Active Record:
+* MySQL 4.1 o posterior: a través de [[yii\db\ActiveRecord]]
+* PostgreSQL 7.3 o posterior: a través de [[yii\db\ActiveRecord]]
+* SQLite 2 y 3: a través de [[yii\db\ActiveRecord]]
+* Microsoft SQL Server 2010 o posterior: a través de [[yii\db\ActiveRecord]]
+* Oracle: a través de [[yii\db\ActiveRecord]]
+* CUBRID 9.1 o posterior: a través de [[yii\db\ActiveRecord]]
+* Sphinx: a través de [[yii\sphinx\ActiveRecord]], requiere la extensión `yii2-sphinx` 
+* ElasticSearch: a través de [[yii\elasticsearch\ActiveRecord]], requiere la extensión `yii2-elasticsearch`
+* Redis 2.6.12 o posterior: a través de [[yii\redis\ActiveRecord]], requiere la extensión `yii2-redis`
+* MongoDB 1.3.0 o posterior: a través de [[yii\mongodb\ActiveRecord]], requiere la extensión `yii2-mongodb`
 
-* MySQL 4.1 or later: via [[yii\db\ActiveRecord]]
-* PostgreSQL 7.3 or later: via [[yii\db\ActiveRecord]]
-* SQLite 2 and 3: via [[yii\db\ActiveRecord]]
-* Microsoft SQL Server 2010 or later: via [[yii\db\ActiveRecord]]
-* Oracle: via [[yii\db\ActiveRecord]]
-* CUBRID 9.1 or later: via [[yii\db\ActiveRecord]]
-* Sphnix: via [[yii\sphinx\ActiveRecord]], requires `yii2-sphinx` extension
-* ElasticSearch: via [[yii\elasticsearch\ActiveRecord]], requires `yii2-elasticsearch` extension
-* Redis 2.6.12 or later: via [[yii\redis\ActiveRecord]], requires `yii2-redis` extension
-* MongoDB 1.3.0 or later: via [[yii\mongodb\ActiveRecord]], requires `yii2-mongodb` extension
+Como puedes comprobar, Yii proporciona soporte Active Record para bases de datos relacionales, así como bases de datos NoSQL. 
 
-As you can see, Yii provides Active Record support for relational databases as well as NoSQL databases.
-In this tutorial, we will mainly describe the usage of Active Record for relational databases.
-However, most content described here are also applicable to Active Record for NoSQL databases.
+En este tutorial, vamos a describir principalmente el uso de Active Record para bases de datos relacionales.  
+
+Sin embargo, la mayoría del contenido aquí descrito es también aplicable a Active Record para bases de datos NoSQL.
 
 
-Declaring Active Record Classes
-------------------------------
+Declarar Clases Active Record
+-----------------------------
 
-To declare an Active Record class you need to extend [[yii\db\ActiveRecord]] and implement
-the `tableName` method that returns the name of the database table associated with the class:
+Para declarar una clase Active necesitas extender [[yii\db\ActiveRecord]] e implementar el método `tableName` que devuelve el nombre de la tabla en la base de datos asociada a la clase:
 
 ```php
 namespace app\models;
@@ -58,7 +55,7 @@ use yii\db\ActiveRecord;
 class Customer extends ActiveRecord
 {
     /**
-     * @return string the name of the table associated with this ActiveRecord class.
+     * @return string el nombre de la tabla asociada con esta clase ActiveRecord.
      */
     public static function tableName()
     {
@@ -68,22 +65,20 @@ class Customer extends ActiveRecord
 ```
 
 
-Accessing Column Data
----------------------
+Acceso a la Columna de Datos
+----------------------------
+Active Record asigna cada columna de la fila de la tabla a un atributo del objeto Active Record. Un atributo se comporta como una propiedad pública del objeto. El nombre del atributo es igual al nombre de la columna correspondiente y distingue entre mayúsculas y minúsculas.
 
-Active Record maps each column of the corresponding database table row to an attribute in the Active Record
-object. An attribute behaves like a regular object public property. The name of an attribute is the same
-as the corresponding column name and is case-sensitive.
+Para leer el valor de una columna, puedes utilizar la siguiente sintaxis:
 
-To read the value of a column, you can use the following syntax:
 
 ```php
-// "id" and "email" are the names of columns in the table associated with $customer ActiveRecord object
+// "id" y "email" son los nombres de las columnas en la tabla asociada con el objeto Active Record $customer
 $id = $customer->id;
 $email = $customer->email;
 ```
 
-To change the value of a column, assign a new value to the associated property and save the object:
+Para cambiar el valor de una columna, asigna un nuevo valor a la propiedad asociada y guarda el objeto:
 
 ```php
 $customer->email = 'jane@example.com';
@@ -91,12 +86,9 @@ $customer->save();
 ```
 
 
-Connecting to Database
-----------------------
-
-Active Record uses a [[yii\db\Connection|DB connection]] to exchange data with database. By default,
-it uses the `db` application component as the connection. As explained in [Database basics](database-basics.md),
-you may configure the `db` component in the application configuration file like follows,
+Conexión a la Base de Datos
+---------------------------
+Active Record usa [[yii\db\Connection|DB connection]] para intercambiar datos con la base de datos. De forma predeterminada, utiliza el component de aplicación `db` como conexión. Como se explica en Database basics](database-basics.md), puedes configurar el componente `db` en el archivo de configuración de la siguiente forma: 
 
 ```php
 return [
@@ -110,9 +102,7 @@ return [
     ],
 ];
 ```
-
-If you are using multiple databases in your application and you want to use a different DB connection
-for your Active Record class, you may override the [[yii\db\ActiveRecord::getDb()|getDb()]] method:
+Si utilizas multiples base de datos en tu aplicación y quieres utilizar una conexión BD diferente para tu clase Active Record, puedes sobreescribir el método [[yii\db\ActiveRecord::getDb()|getDb()]]:
 
 ```php
 class Customer extends ActiveRecord
@@ -121,72 +111,66 @@ class Customer extends ActiveRecord
 
     public static function getDb()
     {
-        return \Yii::$app->db2;  // use "db2" application component
+        return \Yii::$app->db2;  // usa el componente de aplicación "db2" 
     }
 }
 ```
 
 
-Querying Data from Database
----------------------------
-
-Active Record provides two entry methods for building DB queries and populating data into Active Record instances:
+Ejecutando Consultas a la Base de Datos
+---------------------------------------
+Active Record ofrece dos métodos de entrada para la creación de consultas DB y la correspondiente inserción de datos en instancias Active Record: 
 
  - [[yii\db\ActiveRecord::find()]]
  - [[yii\db\ActiveRecord::findBySql()]]
-
-Both methods return an [[yii\db\ActiveQuery]] instance, which extends [[yii\db\Query]], and thus supports the same set
-of flexible and powerful DB query building methods, such as `where()`, `join()`, `orderBy()`, etc. The following examples
-demonstrate some of the possibilities.
+ 
+Ambos métodos devuelven una instancia [[yii\db\ActiveQuery]], la cual extiende de [[yii\db\Query]], y por lo tanto soporta el mismo grupo de potentes y flexibles métodos de construcción de consultas, tales como `where()`, `join()`, `orderBy()`, etc. Los siguientes ejemplos muestran algunas de sus posibilidades.
 
 ```php
-// to retrieve all *active* customers and order them by their ID:
+// devuelve todos los clientes *activos* y ordenarlos por su ID:
 $customers = Customer::find()
     ->where(['status' => Customer::STATUS_ACTIVE])
     ->orderBy('id')
     ->all();
 
-// to return a single customer whose ID is 1:
+// devuelve un solo cliente cuyo ID es 1:
 $customer = Customer::find()
     ->where(['id' => 1])
     ->one();
 
-// to return the number of *active* customers:
+// devuelve el número de clientes *activos*:
 $count = Customer::find()
     ->where(['status' => Customer::STATUS_ACTIVE])
     ->count();
 
-// to index the result by customer IDs:
+// para indexar el resultado por los IDs de clientes:
 $customers = Customer::find()->indexBy('id')->all();
-// $customers array is indexed by customer IDs
+// el array (matriz) $customers estará indexado por los IDs de clientes
 
-// to retrieve customers using a raw SQL statement:
+// devuelve todos los clientes usando una sentencia SQL:
 $sql = 'SELECT * FROM customer';
 $customers = Customer::findBySql($sql)->all();
 ```
 
-> Tip: In the code above `Customer::STATUS_ACTIVE` is a constant defined in `Customer`. It is a good practice to
-  use meaningful constant names rather than hardcoded strings or numbers in your code.
+> Consejo: En el código anterior `Customer::STATUS_ACTIVE` es una constante definida en `Customer`. Es una buena práctica utilizar nombres de constantes significativas en lugar de cadenas codificadas o números en el código.
 
+Yii provee de dos métodos de acceso directo para devolver instancias Active Record usando coincidencias en el valor de la clave principal o por un conjunto de valores de columnas: `findOne()` y `findAll()`. El primero devuelve la primera instancia que coincida mientras que la última devuelve todas ellas. Por ejemplo,
 
-Two shortcut methods are provided to return Active Record instances matching a primary key value or a set of
-column values: `findOne()` and `findAll()`. The former returns the first matching instance while the latter
-returns all of them. For example,
 
 ```php
-// to return a single customer whose ID is 1:
+// para devolver un solo cliente cuyo ID sea 1:
 $customer = Customer::findOne(1);
 
-// to return an *active* customer whose ID is 1:
+// para devolver un cliente *activo* cuyo ID es 1:
 $customer = Customer::findOne([
     'id' => 1,
     'status' => Customer::STATUS_ACTIVE,
 ]);
 
-// to return customers whose ID is 1, 2 or 3:
+// para devolver clientes cuyos ID sean 1, 2 o 3:
 $customers = Customer::findAll([1, 2, 3]);
 
-// to return customers whose status is "deleted":
+// para devolver clientes cuyo status sea "deleted":
 $customer = Customer::findAll([
     'status' => Customer::STATUS_DELETED,
 ]);
