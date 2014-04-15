@@ -177,36 +177,35 @@ $customer = Customer::findAll([
 ```
 
 
-### Retrieving Data in Arrays
+### Recuperar Datos en Arrays
 
-Sometimes when you are processing a large amount of data, you may want to use arrays to hold the data
-retrieved from database to save memory. This can be done by calling `asArray()`:
+A veces, cuando procesas grandes cantidades de datos, desees usar arrays para almacenar los datos recuperados y así ahorrar memoria. Esto se puede conseguir usando `asArray()`:
 
 ```php
-// to return customers in terms of arrays rather than `Customer` objects:
+// para recuperar clientes en arrays en vez de objetos `Customer`:
 $customers = Customer::find()
     ->asArray()
     ->all();
-// each element of $customers is an array of name-value pairs
-```
+// cada elemento de $customers será un array con una relación nombre-valor
+
+```  
 
 
-### Retrieving Data in Batches
+### Recuperar Datos en Lotes
 
-In [Query Builder](query-builder.md), we have explained that you may use *batch query* to keep your memory
-usage under a limit when querying a large amount of data from database. You may use the same technique
-in Active Record. For example,
+En [Query Builder](query-builder.md), explicamos como puedes usar *batch query* para mantener tu memoria bajo límite cuando debas consultar una gran cantidad de datos de la base de datos. Puedes utilizar la misma técnica en Active Record. Por ejemplo,
+
 
 ```php
-// fetch 10 customers at a time
+// recuperar 10 clientes a la vez
 foreach (Customer::find()->batch(10) as $customers) {
-    // $customers is an array of 10 or fewer Customer objects
+    // $customers es un array de 10 o menos de objetos Customer
 }
-// fetch 10 customers at a time and iterate them one by one
+// recuperar 10 clientes a la vez e iterar en bucle uno a uno
 foreach (Customer::find()->each(10) as $customer) {
-    // $customer is a Customer object
+    // $customer es un objeto Customer
 }
-// batch query with eager loading
+// Consulta de Lote en carga diligente
 foreach (Customer::find()->with('orders')->each() as $customer) {
 }
 ```
