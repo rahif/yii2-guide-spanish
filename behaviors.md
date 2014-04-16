@@ -1,22 +1,23 @@
-Behaviors
+Comportamientos
 =========
 
-A behavior (also knows as *mixin*) can be used to enhance the functionality of an existing component without modifying the component's
-code. In particular, a behavior can "inject" its public methods and properties into the component, making them directly accessible
-via the component itself. A behavior can also respond to  events triggered in the component, thus intercepting the normal
-code execution. Unlike [PHP's traits](http://www.php.net/traits), behaviors can be attached to classes at runtime.
+Un comportamiento (también conocido como *mixin*) puede ser usado para mejorar la funcionalidad de un componente existente sin modificar
+el código del componente. En particular, un comportamiento puede "inyectar" sus métodos y propiedades públicas en el componente, haciendolas
+directamente accesibles desde el propio componente. Un comportamiento puede también responder a eventos lanzados en el componente,
+además de interceptar la ejecución normal del código.
+A diferencia de [traits en PHP](http://www.php.net/traits), los comportamientos se pueden unir a las clases en tiempo de ejecución.
 
-Using behaviors
+Usando comportamientos
 ---------------
 
-A behavior can be attached to any class that extends from [[yii\base\Component]] either from code or via application
-config.
+Un comportamiento puede ser unido a cualquier clase que extienda de [[yii\base\Component]] desde el código o por configuración
+de la aplicación.
 
-### Attaching behaviors via `behaviors` method
+### Uniendo comportamientos mediante el método `behaviors`
 
-In order to attach a behavior to a class you can implement the `behaviors` method of the component.
-As an example, Yii provides the [[yii\behaviors\TimestampBehavior]] behavior for automatically updating timestamp
-fields when saving an [[yii\db\ActiveRecord|Active Record]] model:
+Para unir un comportamiento a una clase se puede implementar el método `behaviors` del componente.
+Como un ejemplo, Yii proporciona el comportamiento [[yii\behaviors\TimestampBehavior]] para automáticamente actualizar campos
+con marcas de tiempo cuando grabamos un modelo [[yii\db\ActiveRecord|Active Record]].
 
 ```php
 use yii\behaviors\TimestampBehavior;
@@ -40,20 +41,20 @@ class User extends ActiveRecord
 }
 ```
 
-In the above, the name `timestamp` can be used to reference the behavior through the component. For example, `$user->timestamp`
-gives the attached timestamp behavior instance. The corresponding array is the configuration used to create the
-[[yii\behaviors\TimestampBehavior|TimestampBehavior]] object.
+En el ejemplo anterior, el nombre `timestamp` puede ser usado para referenciar el comportamiento a través del componente. Por ejemplo, 
+`$user->timestamp` obtiene la instancia del comportamiento. El array correspondiente es la configuración usada para crear el
+objeto [[yii\behaviors\TimestampBehavior|TimestampBehavior]].
 
-Besides responding to the insertion and update events of ActiveRecord, `TimestampBehavior` also provides a method `touch()`
-that can assign the current timestamp to a specified attribute. As aforementioned, you can access this method directly
-through the component, like the following:
+Más allá de responder a los eventos de inserción y actualización del registro activo, `TimestampBehavior` también proporciona 
+un método `touch()` que puede asignar la actual marca de tiempo a un atributo específico. 
+Como se ha mencionado, se puede acceder a este método directamente a través del componente de la siguiente manera:
 
 ```php
 $user->touch('login_time');
 ```
 
-If you do not need to access a behavior object, or the behavior does not need customization, you can also
-use the following simplified format when specifying the behavior,
+Si no se necesita acceder al objeto comportamiento, o el comportamiento no necesita ser personalizado, se puede
+usar el siguiente formato simplificado al especificar el comportamiento.
 
 ```php
 use yii\behaviors\TimestampBehavior;
@@ -73,19 +74,18 @@ class User extends ActiveRecord
 }
 ```
 
-### Attaching behaviors dynamically
+### Uniendo comportamientos dinamicamente
 
-Another way to attach a behavior to a component is calling `attachBehavior` method like the followig:
+Otro camino para unir un comportamiento a un componente es llamando al método `attachBehavior` como se muestra a continuación:
 
 ```php
 $component = new MyComponent();
 $component->attachBehavior();
 ```
 
-### Attaching behaviors from config
+### Uniendo comportamientos por configuración
 
-One can attach a behavior to a component when configuring it with a configuration array. The syntax is like the
-following:
+Se puede unir un comportamiento a un componente en su array de configuración. La sintaxis es:
 
 ```php
 return [
@@ -102,14 +102,13 @@ return [
 ];
 ```
 
-In the config above `as tree` stands for attaching a behavior named `tree`, and the array will be passed to [[\Yii::createObject()]]
-to create the behavior object.
+En la configuración anterior `as tree` representa la unión de un comportamiento llamado `tree`, y el array será pasado a [[\Yii::createObject()]]
+para crear el objeto comportamiento.
 
-
-Creating your own behaviors
+Creando comportamientos propios
 ---------------------------
 
-To create your own behavior, you must define a class that extends [[yii\base\Behavior]].
+Para crear un comportamiento se debe definir una clase que extienda de [[yii\base\Behavior]].
 
 ```php
 namespace app\components;
@@ -121,7 +120,7 @@ class MyBehavior extends Behavior
 }
 ```
 
-To make it customizable, like [[yii\behaviors\TimestampBehavior]], add public properties:
+Para hacerlo personalizable, como [[yii\behaviors\TimestampBehavior]], se añaden propiedades públicas:
 
 ```php
 namespace app\components;
@@ -134,7 +133,7 @@ class MyBehavior extends Behavior
 }
 ```
 
-Now, when the behavior is used, you can set the attribute to which you'd want the behavior to be applied:
+Ahora, cuando se utiliza el comportamiento, se puede configurar el atributo en el cual te gustaría que fuese aplicado:
 
 ```php
 namespace app\models;
@@ -157,8 +156,8 @@ class User extends ActiveRecord
 }
 ```
 
-Behaviors are normally written to take action when certain events occur. Below we're implementing `events` method
-to assign event handlers:
+Los comportamientos son normalmente escritos para ejecutar acciones cuando ocurren ciertos eventos. En el siguiente ejemplo, se implementa el
+método `events` para asignar un manejador de eventos:
 
 ```php
 namespace app\components;
