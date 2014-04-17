@@ -1,17 +1,17 @@
-Caching
-=======
+Memoria caché
+============
 
-Caching is a cheap and effective way to improve the performance of a web application. By storing relatively
-static data in cache and serving it from cache when requested, the application saves the time required to generate the data from scratch. Caching is one of the best ways to improve the performance of your application, almost mandatory on any large-scale site.
+La memoria caché es una forma barata y efectiva de mejorar la eficiencia de una aplicación web. Almacenando datos estáticos
+en memoria caché y sirviendolos cuando son solicitados, la aplicación ahorra el tiempo que tarda en generar los datos desde el principio.
+Almacenar datos en memoria caché es una de las mejores maneras de mejorar la eficiencia de una aplicación, casi obligatorio en un sitio web de gran tamaño.
 
+Conceptos básicos
+---------------
 
-Base Concepts
--------------
-
-Using cache in Yii involves configuring and accessing a cache application component. The following
-application configuration specifies a cache component that uses [memcached](http://memcached.org/) with
-two cache servers. Note, this configuration should be done in file located at `@app/config/web.php` alias
-in case you're using basic sample application.
+Usar memoria caché en Yii requiere configurar y acceder al componente cache de la aplicación. La siguiente configuración 
+de la aplicación especifica un componente de caché que utiliza [memcached](http://memcached.org/) con dos
+servidores de caché. Nota, esta configuración debe ser hecha en el fichero localizado en el alias `@app/config/web.php`
+si se esta utilizando la plantilla básica de la aplicación.
 
 ```php
 'components' => [
@@ -33,28 +33,27 @@ in case you're using basic sample application.
 ],
 ```
 
-When the application is running, the cache component can be accessed through `Yii::$app->cache` call.
+Cuando la aplicación esta funcionando, el componente cache puede ser accedido por llamadas a `Yii::$app->cache`.
 
-Yii provides various cache components that can store cached data in different media. The following
-is a summary of the available cache components:
+Yii proporciona various componentes de caché que pueden almacenar datos en diferentes medios. A continuación
+se muestra un listado con los componentes de caché disponibles:
 
-* [[yii\caching\ApcCache]]: uses PHP [APC](http://php.net/manual/en/book.apc.php) extension. This option can be
-  considered as the fastest one when dealing with cache for a centralized thick application (e.g. one
-  server, no dedicated load balancers, etc.).
+* [[yii\caching\ApcCache]]: utiliza la extensión de PHP [APC](http://php.net/manual/en/book.apc.php). Esta opción puede
+  ser considerada como la más rápida de entre todas las disponibles para una aplicación centralizada. (p. ej. un servidor,
+  no dedicado balance de carga, etc).
 
-* [[yii\caching\DbCache]]: uses a database table to store cached data. By default, it will create and use a
-  [SQLite3](http://sqlite.org/) database under the runtime directory. You can explicitly specify a database for
-  it to use by setting its `db` property.
+* [[yii\caching\DbCache]]: utiliza una tabla de base de datos para almacenar los datos. Por defecto, se creará y usará
+  como base de datos [SQLite3](http://sqlite.org/) en el directorio runtime. Se puede explicitamente especificar que base
+  de datos va a ser utilizada configurando la propiedad `db`.
 
-* [[yii\caching\DummyCache]]: presents dummy cache that does no caching at all. The purpose of this component
-  is to simplify the code that needs to check the availability of cache. For example, during development or if
-  the server doesn't have actual cache support, we can use this cache component. When an actual cache support
-  is enabled, we can switch to use the corresponding cache component. In both cases, we can use the same
-  code `Yii::$app->cache->get($key)` to attempt retrieving a piece of data without worrying that
-  `Yii::$app->cache` might be `null`.
+* [[yii\caching\DummyCache]]: dummy cache (cache tonta) que no cachea nada. El propósito de este componente
+  es simplificar el código necesario para chequear la disponibilidad de caché. Por ejemplo, durante el desarrollo o
+  si el servidor no tiene soporte de caché actualmente, puede utilizarse este componente de caché. Cuando este disponible
+  un soporte para la caché, puede cambiarse el componente correspondiente. En ambos casos, puede utilizarse el mismo código
+  `Yii::$app->cache->get($key)` para recuperar un dato sin la preocupación de que `Yii::$app->cache` pueda ser `null`.
 
-* [[yii\caching\FileCache]]: uses standard files to store cached data. This is particular suitable
-  to cache large chunk of data (such as pages).
+* [[yii\caching\FileCache]]: utiliza un fichero estándar para almacenar los datos. Esto es adecuado para almacenar
+  grandes bloques de datos (como páginas).
 
 * [[yii\caching\MemCache]]: uses PHP [memcache](http://php.net/manual/en/book.memcache.php)
   and [memcached](http://php.net/manual/en/book.memcached.php) extensions. This option can be considered as
