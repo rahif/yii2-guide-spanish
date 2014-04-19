@@ -31,4 +31,4 @@ Yii::$classMap['yii\helpers\ArrayHelper'] = 'path/to/ArrayHelper.php';
 ```
 
 El paso 4 anterior indica a la clase autoloader de Yii para que carge la nueva versión del helper class en lugar del incluido en la distribución de Yii.
-> Consejo: Puede usarse `Yii::$classMap` para reemplazar cualquier clase del núcleo con una versión personalizada, no solo las helper classes. 
+> Consejo: Puede usarse `Yii::$classMap` para reemplazar cualquier clase del núcleo con una versión personalizada, no solo las helper classes.
