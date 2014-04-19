@@ -77,7 +77,7 @@ tipo diferente sin modificar el código que esta utilizando la memoria caché.
 Almacenar datos en caché puede ser utilizado en diferentes niveles.
 En el nivel más bajo, almacenar un dato, como una variable. 
 En un nivel superior, almacenar en caché un fragmento de una página que es generado por el script de la vista.
-En el nivel más alto, almacenar la página completa en caché y sirviendola de caché cuando es necesitada. 
+En el nivel más alto, almacenar la página completa en caché y sirviendola de caché cuando es necesitada.
 
 En las siguientes subsecciones se elabora como usar caché en estos niveles.
 
