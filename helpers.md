@@ -1,7 +1,7 @@
 Helper Classes
 ==============
 
-Yii provee muchas clases que ayudan a simplificar tareas comunes de codificación, como manipulación de cadenas o arrays,
+Yii proporciona muchas clases que ayudan a simplificar tareas comunes de codificación, como manipulación de cadenas o arrays,
 generación de código HTML, y mucho más. Estas helper classes (clases de ayuda) están organizadas bajo el espacio de nombres `yii\helpers` 
 y son todas clases estáticas (solo contienen propiedades y métodos estáticos y no deben ser instanciados).
 
@@ -16,7 +16,7 @@ $c = ArrayHelper::merge($a, $b);
 Extendiendo Helper classes (Clases de ayuda)
 ------------------------
 
-Para hacer más fácil extender helper classes Yii rompe cada helper class en dos clases: una clase base (p. ej. `BaseArrayHelper`)
+Para hacer más fácil extender estas clases Yii rompe cada helper class en dos clases: una clase base (p. ej. `BaseArrayHelper`)
 y una clase específica (p. ej. `ArrayHelper`). Al usar un helper debe usarse solo la versión específica, nunca la clase base.
 
 Si se quiere personalizar un helper, realizar los siguientes pasos (usando `ArrayHelper` como un ejemplo):

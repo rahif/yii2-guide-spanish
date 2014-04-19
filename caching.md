@@ -72,8 +72,11 @@ se muestra un listado con los componentes de caché disponibles:
   [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm)
   as the underlying caching medium.
 
-Tip: because all these cache components extend from the same base class [[yii\caching\Cache]], one can switch to use
-a different type of cache without modifying the code that uses cache.
+Consejo: Porque todos estos componentes de caché extienden de la misma clase base [[yii\caching\Cache]], se puede cambiar a un 
+diferente tipo de memoria caché sin modificar el código que esta utilizando la memoria caché.
+
+Almacenar datos en memoria caché puede ser utilizado en diferentes niveles. En el nivel más bajo, almacenamos un dato,
+como una variable, 
 
 Caching can be used at different levels. At the lowest level, we use cache to store a single piece of data,
 such as a variable, and we call this data caching. At the next level, we store in cache a page fragment which
