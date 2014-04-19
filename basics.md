@@ -14,7 +14,6 @@ La clase [[yii\base\Component|Component]] extiende de [[yii\base\Object|Object]]
 [[yii\base\Object|Object]] es normalmente usada por clases que representan estructuras básicas de datos mientras que
 [[yii\base\Component|Component]] es usada por componentes de la aplicación y otras clases que implementan una lógica más elevada.
 
-
 Configuración de Objeto
 --------------------
 
