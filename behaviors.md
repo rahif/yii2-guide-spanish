@@ -1,6 +1,7 @@
 Comportamientos
 =============
 
+
 Un comportamiento (también conocido como *mixin*) puede ser usado para mejorar la funcionalidad de un componente existente sin modificar
 el código del componente. En particular, un comportamiento puede "inyectar" sus métodos y propiedades públicas en el componente, haciendolas
 directamente accesibles desde el propio componente. Un comportamiento puede también responder a eventos lanzados en el componente,
