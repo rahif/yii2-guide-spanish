@@ -1,13 +1,11 @@
 Helper Classes
-==============
+=============
 
-Yii provides many classes that help simplify  common coding tasks, such as string or array manipulations,
-HTML code generation, and so forth. These helper classes are organized under the `yii\helpers` namespace and
-are all static classes (meaning they contain only static properties and methods and should not be instantiated).
+Yii proporciona muchas clases que ayudan a simplificar tareas comunes de codificación, como manipulación de cadenas o arrays,
+generación de código HTML, y mucho más. Estas helper classes (clases de ayuda) están organizadas bajo el espacio de nombres `yii\helpers` 
+y son todas clases estáticas (solo contienen propiedades y métodos estáticos y no deben ser instanciadas).
 
-
-You use a helper class by directly calling one of its static methods:
-
+Usa una helper class llamando directamente a uno de sus métodos estáticos.
 
 ```
 use yii\helpers\ArrayHelper;
@@ -15,23 +13,22 @@ use yii\helpers\ArrayHelper;
 $c = ArrayHelper::merge($a, $b);
 ```
 
-Extending Helper Classes
-------------------------
+Extendiendo Helper classes
+-----------------------
 
-To make helper classes easier to extend, Yii breaks each helper class into two classes: a base class (e.g. `BaseArrayHelper`)
-and a concrete class (e.g. `ArrayHelper`). When you use a helper, you should only use the concrete version, never use the base class.
+Para hacer más fácil extender estas clases Yii rompe cada helper class en dos clases: una clase base (p. ej. `BaseArrayHelper`)
+y una clase específica (p. ej. `ArrayHelper`). Al usar un helper debe usarse solo la versión específica, nunca la clase base.
 
-If you want to customize a helper, perform the following steps (using `ArrayHelper` as an example):
+Si se quiere personalizar un helper, realizar los siguientes pasos (usando `ArrayHelper` como un ejemplo):
 
-1. Name your class the same as the concrete class provided by Yii, including the namespace: `yii\helpers\ArrayHelper`
-2. Extend your class from the base class: `class ArrayHelper extends \yii\helpers\BaseArrayHelper`.
-3. In your class, override any method or property as needed, or add new methods or properties.
-4. Tell your application to use your version of the helper class by including the following line of code in the bootstrap script:
+1. Nombra a la nueva clase igual que la clase específica que provee Yii, incluyendo el espacio de nombre: `yii\helpers\ArrayHelper`
+2. Extiende la nueva clase de la clase base: `class ArrayHelper extends \yii\helpers\BaseArrayHelper`.
+3. En la nueva clase, sobreescribe cualquier método o propiedad si es necesario o añade nuevos métodos o propiedades.
+4. Para que la aplicación utilice la nueva versión del helper class incluye la siguiente linea de código en el script de inicio:
 
 ```php
 Yii::$classMap['yii\helpers\ArrayHelper'] = 'path/to/ArrayHelper.php';
 ```
 
-Step 4 above will instruct the Yii class autoloader to load your version of the helper class instead of the one included in the Yii distribution.
-
-> Tip: You can use `Yii::$classMap` to replace ANY core Yii class with your own customized version, not just helper classes.
+El paso 4 anterior indica a la clase autoloader de Yii para que carge la nueva versión del helper class en lugar del incluido en la distribución de Yii.
+> Consejo: Puede usarse `Yii::$classMap` para reemplazar cualquier clase del núcleo con una versión personalizada, no solo las helper classes.

@@ -1,34 +1,32 @@
-Basic concepts of Yii
+Conceptos básicos de Yii
 =====================
 
-
-Component and Object
+Componente y Objecto
 --------------------
 
-Classes of the Yii framework usually extend from one of the two base classes [[yii\base\Object]] or [[yii\base\Component]].
-These classes provide useful features that are added automatically to all classes extending from them.
+Las clases del framework Yii usualmente extienden de una de las dos clases base [[yii\base\Object]] o [[yii\base\Component]].
+Estas clases proporcionan útiles características que son añadidas automáticamente a todas las clases que las extienden.
 
-The [[yii\base\Object|Object]] class provides the [configuration and property feature](../api/base/Object.md).
-The [[yii\base\Component|Component]] class extends from [[yii\base\Object|Object]] and adds
-[event handling](events.md) and [behaviors](behaviors.md).
+La clase [[yii\base\Object|Object]] proporciona la [configuración y propiedades características](../api/base/Object.md).
+La clase [[yii\base\Component|Component]] extiende de [[yii\base\Object|Object]] y añade 
+[Manejo de eventos](events.md) y [comportamientos](behaviors.md).
 
-[[yii\base\Object|Object]] is usually used for classes that represent basic data structures while
-[[yii\base\Component|Component]] is used for application components and other classes that implement higher logic.
+[[yii\base\Object|Object]] es normalmente usada por clases que representan estructuras básicas de datos mientras que
+[[yii\base\Component|Component]] es usada por componentes de la aplicación y otras clases que implementan una lógica más elevada.
 
-
-Object Configuration
+Configuración de Objeto
 --------------------
 
-The [[yii\base\Object|Object]] class introduces a uniform way of configuring objects. Any descendant class
-of [[yii\base\Object|Object]] should declare its constructor (if needed) in the following way so that
-it can be properly configured:
+La clase [[yii\base\Object|Object]] introduce un camino uniforme en la configuración de objetos. Cualquier clase descendiente 
+de [[yii\base\Object|Object]] debe declarar su constructor (si lo necesita) de la siguiente manera para que pueda ser
+configurado adecuadamente.
 
 ```php
 class MyClass extends \yii\base\Object
 {
     public function __construct($param1, $param2, $config = [])
     {
-        // ... initialization before configuration is applied
+        // ... inicialización antes de que la configuración sea aplicada
 
         parent::__construct($config);
     }
@@ -37,17 +35,17 @@ class MyClass extends \yii\base\Object
     {
         parent::init();
 
-        // ... initialization after configuration is applied
+		// ... inicialización después de que la configuración ha sido aplicada
     }
 }
 ```
 
-In the above example, the last parameter of the constructor must take a configuration array
-which contains name-value pairs that will be used to initialize the object's properties at the end of the constructor.
-You can override the `init()` method to do initialization work after the configuration is applied.
+En el ejemplo anterior, el último parámetro del constructor debe tomar un array de configuración el cual 
+contenga parejas nombre-valor, que serán usadas para inicializar las propiedades del objeto cuando finalice el constructor.
+Puede sobreescribirse el método `init()` para hacer la inicialización después de que la configuración ha sido aplicada.
 
-By following this convention, you will be able to create and configure new objects
-using a configuration array like the following:
+Siguiendo esta convención, es posible crear y configurar nuevos objetos usando un array de configuración como el 
+mostrado a continuación.
 
 ```php
 $object = Yii::createObject([
@@ -58,58 +56,61 @@ $object = Yii::createObject([
 ```
 
 
-Path Aliases
-------------
-
-Yii 2.0 expands the usage of path aliases to both file/directory paths and URLs. An alias
-must start with an `@` symbol so that it can be differentiated from file/directory paths and URLs.
-For example, the alias `@yii` refers to the Yii installation directory while `@web` contains the base URL for the currently running web application. Path aliases are supported in most places in the Yii core code. For example, `FileCache::cachePath` can accept both a path alias and a normal directory path.
-
-Path aliases are also closely related to class namespaces. It is recommended that a path
-alias be defined for each root namespace so that Yii's class autoloader can be used without
-any further configuration. For example, because `@yii` refers to the Yii installation directory,
-a class like `yii\web\Request` can be autoloaded by Yii. If you use a third party library
-such as Zend Framework, you may define a path alias `@Zend` which refers to its installation
-directory and Yii will be able to autoload any class in this library.
-
-The following aliases are predefined by the core framework:
-
-- `@yii` - framework directory.
-- `@app` - base path of currently running application.
-- `@runtime` - runtime directory.
-- `@vendor` - Composer vendor directory.
-- `@webroot` - web root directory of currently running web application.
-- `@web` - base URL of currently running web application.
-
-Autoloading
+Path aliases
 -----------
 
-All classes, interfaces and traits are loaded automatically at the moment they are used. There's no need to use `include` or `require`. It is true for Composer-loaded packages as well as Yii extensions.
+Yii 2.0 extiende el uso de path alias (alias de ruta) a rutas de fichero/directorio y URLs. Un alias debe comenzar
+con un símbolo `@` para que pueda ser diferenciado de rutas de fichero/directorio o de Urls.
+Por ejemplo, el alias `@yii` se refiere al directorio de instalación de Yii mientras que `@web` contiene la URL base para la actual aplicación web.
+Alias de ruta son soportados en muchos lugares en el núcleo del código de Yii.
+Por ejemplo `FileCache::cachePath` puede aceptar un alias de ruta o una ruta normal de directorio.
 
-Yii's autoloader works according to [PSR-4](https://github.com/php-fig/fig-standards/blob/master/proposed/psr-4-autoloader/psr-4-autoloader.md).
-That means namespaces, classes, interfaces and traits must correspond to file system paths and file names accordinly, except for root namespace paths that are defined by an alias.
+Los alias de ruta están muy relacionados con los nombres de espacio de clases. Es recomendado que un
+alias de ruta sea definido para cada nombre de espacio raiz de esa forma la clase de autocarga de Yii 
+puede ser usada sin ninguna configuración adicional. Por ejemplo, como `@yii` remite al directorio de instalación de Yii,
+una clase `yii\web\Request` pude ser cargada automáticamente por Yii. Si se utiliza una biblioteca de terceros 
+de Zend Framework, se puede definir un alias de ruta `@Zend` el cual remita a su directorio de instalación
+y Yii será capaz de cargar automáticamente cualquier clase en esta biblioteca.
 
-For example, if the standard alias `@app` refers to `/var/www/example.com/` then `\app\models\User` will be loaded from `/var/www/example.com/models/User.php`.
+Los siguientes alias son predefinidos por el núcleo del framework:
 
-Custom aliases may be added using the following code:
+- `@yii` - directorio del framework.
+- `@app` - ruta base de la aplicación actual.
+- `@runtime` - directorio runtime.
+- `@vendor` - directorio vendor de Composer.
+- `@webroot` - directorio raiz de la web de la aplicación actual.
+- `@web` - URL base de la aplicación actual.
+
+Autoloading
+----------
+
+Todas las clases, interfaces y traits (rasgos) son cargadas automáticamente en el momento que son usadas. No hay necesidad de usar `include` o `require`. 
+Esto es cierto para el cargador de paquetes de composer como también para las extensiones de Yii.
+
+El autoloader de Yii funciona según [PSR-4](https://github.com/php-fig/fig-standards/blob/master/proposed/psr-4-autoloader/psr-4-autoloader.md).
+Eso significa que los espacios de nombres, clases, interfaces y traits (rasgos) deben corresponder acordemente a las rutas del sistema de ficheros y a los nombres de ficheros, 
+excepto para el nombre de espacio raiz que es definido por un alias.
+
+Por ejemplo, si el alias estándar `@app` se refiere a `/var/www/example.com/` entonces `\app\models\User` será cargado desde `/var/www/example.com/models/User.php`.
+Un alias personalizado puede ser añadido usando el siguiente código.
 
 ```php
 Yii::setAlias('@shared', realpath('~/src/shared'));
 ```
 
-Additional autoloaders may be registered using PHP's standard `spl_autoload_register`.
+Adicionales autoloaders pueden ser registrados usando el estándar PHP `spl_autoload_register`.
 
 Helper classes
 --------------
 
-Helper classes typically contain static methods only and are used as follows:
+Helper classes (Clases de ayuda) normalmente solo contienen métodos estáticos y son usadas de la forma:
 
 ```php
 use \yii\helpers\Html;
 echo Html::encode('Test > test');
 ```
 
-There are several classes provided by framework:
+Estas son algunas de las clases incluidas en el framework:
 
 - ArrayHelper
 - Console
