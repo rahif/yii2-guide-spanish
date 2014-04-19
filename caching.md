@@ -1,14 +1,14 @@
 Memoria caché
 ============
 
-La memoria caché es una forma barata y efectiva de mejorar la eficiencia de una aplicación web. Almacenando datos estáticos
-en memoria caché y sirviendolos cuando son solicitados, la aplicación ahorra el tiempo que tarda en generar los datos desde el principio.
-Almacenar datos en memoria caché es una de las mejores maneras de mejorar la eficiencia de una aplicación, casi obligatorio en un sitio web de gran tamaño.
+La memoria caché (desde ahora caché) es una forma barata y efectiva de mejorar la eficiencia de una aplicación web. Almacenando datos estáticos
+en caché y sirviendolos cuando son solicitados, la aplicación ahorra el tiempo que tarda en generar los datos desde el principio.
+Almacenar datos en caché es una de las mejores maneras de mejorar la eficiencia de una aplicación, casi obligatorio en un sitio web de gran tamaño.
 
 Conceptos básicos
 ---------------
 
-Usar memoria caché en Yii requiere configurar y acceder al componente cache de la aplicación. La siguiente configuración 
+Usar caché en Yii requiere configurar y acceder al componente cache de la aplicación. La siguiente configuración 
 de la aplicación especifica un componente de caché que utiliza [memcached](http://memcached.org/) con dos
 servidores de caché. Nota, esta configuración debe ser hecha en el fichero localizado en el alias `@app/config/web.php`
 si se esta utilizando la plantilla básica de la aplicación.
@@ -33,9 +33,9 @@ si se esta utilizando la plantilla básica de la aplicación.
 ],
 ```
 
-Cuando la aplicación esta funcionando, el componente cache puede ser accedido por llamadas a `Yii::$app->cache`.
+Cuando la aplicación esta funcionando, el componente cache puede ser accedido mediante llamadas a `Yii::$app->cache`.
 
-Yii proporciona various componentes de caché que pueden almacenar datos en diferentes medios. A continuación
+Yii proporciona varios componentes de caché que pueden almacenar datos en diferentes medios. A continuación
 se muestra un listado con los componentes de caché disponibles:
 
 * [[yii\caching\ApcCache]]: utiliza la extensión de PHP [APC](http://php.net/manual/en/book.apc.php). Esta opción puede
@@ -43,186 +43,182 @@ se muestra un listado con los componentes de caché disponibles:
   no dedicado balance de carga, etc).
 
 * [[yii\caching\DbCache]]: utiliza una tabla de base de datos para almacenar los datos. Por defecto, se creará y usará
-  como base de datos [SQLite3](http://sqlite.org/) en el directorio runtime. Se puede explicitamente especificar que base
+  como base de datos [SQLite3](http://sqlite.org/) en el directorio runtime. Se puede especificar explicitamente que base
   de datos va a ser utilizada configurando la propiedad `db`.
 
-* [[yii\caching\DummyCache]]: dummy cache (cache tonta) que no cachea nada. El propósito de este componente
+* [[yii\caching\DummyCache]]: dummy cache (caché tonta) que no almacena en caché nada. El propósito de este componente
   es simplificar el código necesario para chequear la disponibilidad de caché. Por ejemplo, durante el desarrollo o
   si el servidor no tiene soporte de caché actualmente, puede utilizarse este componente de caché. Cuando este disponible
-  un soporte para la caché, puede cambiarse el componente correspondiente. En ambos casos, puede utilizarse el mismo código
+  un soporte en caché, puede cambiarse el componente correspondiente. En ambos casos, puede utilizarse el mismo código
   `Yii::$app->cache->get($key)` para recuperar un dato sin la preocupación de que `Yii::$app->cache` pueda ser `null`.
 
 * [[yii\caching\FileCache]]: utiliza un fichero estándar para almacenar los datos. Esto es adecuado para almacenar
   grandes bloques de datos (como páginas).
 
-* [[yii\caching\MemCache]]: uses PHP [memcache](http://php.net/manual/en/book.memcache.php)
-  and [memcached](http://php.net/manual/en/book.memcached.php) extensions. This option can be considered as
-  the fastest one when dealing with cache in a distributed applications (e.g. with several servers, load
-  balancers, etc.)
+* [[yii\caching\MemCache]]: utiliza las extensiones de PHP [memcache](http://php.net/manual/en/book.memcache.php)
+  y [memcached](http://php.net/manual/en/book.memcached.php). Esta opción puede ser considerada como la más rápida
+  cuando la caché es manejada en una aplicación distribuida (p. ej. con varios servidores, con balance de carga, etc..)
 
-* [[yii\redis\Cache]]: implements a cache component based on [Redis](http://redis.io/) key-value store
-  (redis version 2.6.12 or higher is required).
+* [[yii\redis\Cache]]: implementa un componente de caché basado en [Redis](http://redis.io/) que almacenan pares 
+  clave-valor (requiere la versión 2.6.12 de redis).
 
-* [[yii\caching\WinCache]]: uses PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
-  ([see also](http://php.net/manual/en/book.wincache.php)) extension.
+* [[yii\caching\WinCache]]: utiliza la extensión de PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
+  ([ver también](http://php.net/manual/en/book.wincache.php)).
 
-* [[yii\caching\XCache]]: uses PHP [XCache](http://xcache.lighttpd.net/) extension.
+* [[yii\caching\XCache]]: utiliza la extensión de PHP [XCache](http://xcache.lighttpd.net/).
 
-* [[yii\caching\ZendDataCache]]: uses
+* [[yii\caching\ZendDataCache]]: utiliza
   [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm)
-  as the underlying caching medium.
+  como el medio fundamental de caché.
 
 Consejo: Porque todos estos componentes de caché extienden de la misma clase base [[yii\caching\Cache]], se puede cambiar a un 
-diferente tipo de memoria caché sin modificar el código que esta utilizando la memoria caché.
+tipo diferente sin modificar el código que esta utilizando la memoria caché.
 
-Almacenar datos en memoria caché puede ser utilizado en diferentes niveles. En el nivel más bajo, almacenamos un dato,
-como una variable, 
+Almacenar datos en caché puede ser utilizado en diferentes niveles.
+En el nivel más bajo, almacenar un dato, como una variable. 
+En un nivel superior, almacenar en caché un fragmento de una página que es generado por el script de la vista.
+En el nivel más alto, almacenar la página completa en caché y sirviendola de caché cuando es necesitada. 
 
-Caching can be used at different levels. At the lowest level, we use cache to store a single piece of data,
-such as a variable, and we call this data caching. At the next level, we store in cache a page fragment which
-is generated by a portion of a view script. And at the highest level, we store a whole page in cache and serve
-it from cache as needed.
+En las siguientes subsecciones se elabora como usar caché en estos niveles.
 
-In the next few subsections, we elaborate how to use cache at these levels.
-
-Note, by definition, cache is a volatile storage medium. It does not ensure the existence of the cached
-data even if it does not expire. Therefore, do not use cache as a persistent storage (e.g. do not use cache
-to store session data or other valuable information).
+Nota, por definición, la caché es un medio de almacenamiento volátil. No se asegura la existencia de datos
+en caché incluso si los datos no han expirado. Por lo tanto, no usar caché como un medio de almacenamiento
+persistente (p. ej. no guardar datos de sesión u otra información importante)
 
 Data Caching
 ------------
 
-Data caching is about storing some PHP variable in cache and retrieving it later from cache. For this purpose,
-the cache component base class [[yii\caching\Cache]] provides two methods that are used most of the time:
-[[yii\caching\Cache::set()|set()]] and [[yii\caching\Cache::get()|get()]]. Note, only serializable variables and objects could be cached successfully.
+Data caching es almacenar algunas variables de PHP en caché y recuperarlas de ahí mas tarde. Para este propósito,
+la clase base del componente cache [[yii\caching\Cache]] proporciona dos métodos que son utilizados la mayoría de las veces:
+[[yii\caching\Cache::set()|set()]] y [[yii\caching\Cache::get()|get()]].
+Nota, solo variables y objetos serializables pueden ser almacenados en caché con éxito.
 
-To store a variable `$value` in cache, we choose a unique `$key` and call [[yii\caching\Cache::set()|set()]] to store it:
+Para almacenar una variable `$value` en caché, se elige una clave única `$key` y se llama a [[yii\caching\Cache::set()|set()]] 
+para almacenarla:
 
 ```php
 Yii::$app->cache->set($key, $value);
 ```
 
-The cached data will remain in the cache forever unless it is removed because of some caching policy
-(e.g. caching space is full and the oldest data are removed). To change this behavior, we can also supply
-an expiration parameter when calling [[yii\caching\Cache::set()|set()]] so that the data will be removed from the cache after
-a certain period of time:
+Los datos almacenados en caché permanecerán para siempre a menós que sean borrados por alguna política de caché
+(p. ej. si el espacio de caché esta lleno los datos más antiguos son eliminados). Para cambiar este comportamiento,
+se puede suministrar un parámetro de expiración cuando se llama a [[yii\caching\Cache::set()|set()]] de esta manera los datos
+serán eliminados de la caché después de un cierto periodo de tiempo:
 
 ```php
-// keep the value in cache for at most 45 seconds
+// Mantener en caché al menos 45 segundos
 Yii::$app->cache->set($key, $value, 45);
 ```
 
-Later when we need to access this variable (in either the same or a different web request), we call [[yii\caching\Cache::get()|get()]]
-with the key to retrieve it from cache. If the value returned is `false`, it means the value is not available
-in cache and we should regenerate it:
+Cuando se necesite acceder a esta variable más tarde (en la misma o en una diferente petición web), [[yii\caching\Cache::get()|get()]]
+es llamada con la clave `$key` para ser recuperada de caché. Si el valor recuperado es `false`, significa que el valor no esta disponible
+en caché y debe volver a ser calculado.
 
 ```php
 public function getCachedData()
-{
-    $key = /* generate unique key here */;
+{    
+    $key = /* key es una clave y debe ser única para el acceso a caché */;
     $value = Yii::$app->cache->get($key);
     if ($value === false) {
-        $value = /* regenerate value because it is not found in cache and then save it in cache for later use */;
+        $value = /* volver a calcular el valor aquí porque el dato no esta en caché y hay que guardarlo para usos posteriores*/;
         Yii::$app->cache->set($key, $value);
     }
     return $value;
 }
 ```
 
-This is the common pattern of arbitrary data caching for general use.
+Este es el patrón común de un dato arbitrario en caché para uso general.
 
-When choosing the key for a variable to be cached, make sure the key is unique among all other variables that
-may be cached in the application. It is **NOT** required that the key is unique across applications because
-the cache component is intelligent enough to differentiate keys for different applications.
+Cuando se elige la clave para que una variable sea almacenada en caché, debe asegurarse que sea única entre todas las claves
+utilizadas por la aplicación en el almacenamiento de caché. **NO** es requerido que la clave sea única entre todas las aplicaciones
+porque el componente de cache es suficientemente inteligente para diferenciar las claves de diferentes aplicaciones.
 
-Some cache storages, such as MemCache, APC, support retrieving multiple cached values in a batch mode,
-which may reduce the overhead involved in retrieving cached data. A method named [[yii\caching\Cache::mget()|mget()]] is provided
-to exploit this feature. In case the underlying cache storage does not support this feature,
-[[yii\caching\Cache::mget()|mget()]] will still simulate it.
+Algunos almacenamientos de caché, como MemCache, APC, soportan la recuperación de multiples valores almacenados en caché
+en modo por lotes, lo cual puede reducir la sobrecarga envuelta en recuperar los datos almacenados. Un método llamado 
+[[yii\caching\Cache::mget()|mget()]] es proporcionado para aprovechar esta característica. En el caso de que el almacenamiento
+de caché no soporte esta característica, [[yii\caching\Cache::mget()|mget()]] lo simulará.
 
-To remove a cached value from cache, call [[yii\caching\Cache::delete()|delete()]]; and to remove everything from cache, call
-[[yii\caching\Cache::flush()|flush()]].
-Be very careful when calling [[yii\caching\Cache::flush()|flush()]] because it also removes cached data that are from
-other applications if the cache is shared among different applications.
+Para borrar un valor de caché llamar a [[yii\caching\Cache::delete()|delete()]]; y para borrar todo de caché,
+llamar a [[yii\caching\Cache::flush()|flush()]].
 
-Note, because [[yii\caching\Cache]] implements `ArrayAccess`, a cache component can be used liked an array. The followings
-are some examples:
+Se debe ser extremadamente cuidadoso con las llamandas a [[yii\caching\Cache::flush()|flush()]] ya que borra los datos
+almacenados en caché de otras aplicaciones si la caché es compartida entre las aplicaciones.
+
+Nota, porque [[yii\caching\Cache]] implementa `ArrayAccess`, un componente de caché puede ser usado como un array.
+Debajo hay algunos ejemplos:
 
 ```php
 $cache = Yii::$app->cache;
-$cache['var1'] = $value1;  // equivalent to: $cache->set('var1', $value1);
-$value2 = $cache['var2'];  // equivalent to: $value2 = $cache->get('var2');
+$cache['var1'] = $value1;  // equivalente a: $cache->set('var1', $value1);
+$value2 = $cache['var2'];  // equivalente a: $value2 = $cache->get('var2');
 ```
 
-### Cache Dependency
+### Dependencia de caché
 
-Besides expiration setting, cached data may also be invalidated according to some dependency changes. For example, if we
-are caching the content of some file and the file is changed, we should invalidate the cached copy and read the latest
-content from the file instead of the cache.
+Además de configurar el tiempo de expiración, los datos almacenados en caché pueden también ser invalidados conforme
+a algunos cambios en las dependencias. Por ejemplo, si se almacena en caché el contenido de un archivo y el archivo cambia,
+los datos en caché deben ser invalidados y hay que leer el contenido del archivo en lugar de los datos almacenados en caché.
 
-We represent a dependency as an instance of [[yii\caching\Dependency]] or its child class. We pass the dependency
-instance along with the data to be cached when calling [[yii\caching\Cache::set()|set()]].
+Una dependencia es representada como una instancia de [[yii\caching\Dependency]] o su clase hija. Pasar la instancia
+de la dependencia con los datos para que sea almacenada en caché cuando se llama a [[yii\caching\Cache::set()|set()]].
 
 ```php
 use yii\caching\FileDependency;
 
-// the value will expire in 30 seconds
-// it may also be invalidated earlier if the dependent file is changed
+// el valor expirará en 30 segundos
+// puede ser invalidado antes si el fichero dependiente es modificado
 Yii::$app->cache->set($id, $value, 30, new FileDependency(['fileName' => 'example.txt']));
 ```
 
-Now if we retrieve $value from cache by calling `get()`, the dependency will be evaluated and if it is changed, we will
-get a false value, indicating the data needs to be regenerated.
+Ahora si se recupera $value de caché mediante una llamada a `get()`, la dependencia será evaluada y si ha cambiado,
+devolverá el valor falso, indicando que el dato necesita volver a calcularse.
 
-Below is a summary of the available cache dependencies:
+Debajo se muestra un sumario de las dependencias de caché disponibles:
 
-- [[yii\caching\FileDependency]]: the dependency is changed if the file's last modification time is changed.
-- [[yii\caching\GroupDependency]]: marks a cached data item with a group name. You may invalidate the cached data items
-  with the same group name all at once by calling [[yii\caching\GroupDependency::invalidate()]].
-- [[yii\caching\DbDependency]]: the dependency is changed if the query result of the specified SQL statement is changed.
-- [[yii\caching\ChainedDependency]]: the dependency is changed if any of the dependencies on the chain is changed.
-- [[yii\caching\ExpressionDependency]]: the dependency is changed if the result of the specified PHP expression is
-  changed.
+- [[yii\caching\FileDependency]]: la dependencia invalida el dato en caché si el tiempo de la última modificación del fichero ha cambiado.
+- [[yii\caching\GroupDependency]]: marca un elemento de datos almacenado en caché con un nombre de grupo. Puede invalidarse todos
+  los elementos de datos almacenados en caché con el mismo nombre de grupo a la vez llamando a [[yii\caching\GroupDependency::invalidate()]]. 
+- [[yii\caching\DbDependency]]: la dependencia invalida el dato en caché si el resultado de la consulta SQL especificada ha cambiado.
+- [[yii\caching\ExpressionDependency]]: la dependencia invalida el dato en caché si el resultado de la expresión en PHP ha cambiado.
 
-### Query Caching
+### Consultas en Caché
 
-For caching the result of database queries you can wrap them in calls to [[yii\db\Connection::beginCache()]]
-and [[yii\db\Connection::endCache()]]:
+Para almacenar en caché el resultado de varias consultas a base de datos se puede envolver mediante llamadas a 
+[[yii\db\Connection::beginCache()]] y [[yii\db\Connection::endCache()]]:
 
 ```php
-$connection->beginCache(60); // cache all query results for 60 seconds.
-// your db query code here...
+$connection->beginCache(60); // almacenar en caché todos los resultados de las consultas durante 60 segundos.
+// código de consultas a la base de datos aquí...
 $connection->endCache();
 ```
 
-
-Fragment Caching
+Fragmento en Caché
 ----------------
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.fragment
 
-### Caching Options
+### Opciones de Caché
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.fragment#caching-options
 
-### Nested Caching
+### Anidamiento de Caché
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.fragment#nested-caching
 
-Dynamic Content
----------------
+Contenido dinámico
+----------------
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.dynamic
 
-Page Caching
-------------
+Página en Caché
+-------------
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.page
 
-### Output Caching
+### Salida en Caché
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.page#output-caching
 
-### HTTP Caching
+### HTTP en Caché
 
 TBD: http://www.yiiframework.com/doc/guide/1.1/en/caching.page#http-caching

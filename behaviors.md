@@ -1,5 +1,5 @@
 Comportamientos
-=========
+=============
 
 Un comportamiento (también conocido como *mixin*) puede ser usado para mejorar la funcionalidad de un componente existente sin modificar
 el código del componente. En particular, un comportamiento puede "inyectar" sus métodos y propiedades públicas en el componente, haciendolas
@@ -8,7 +8,7 @@ además de interceptar la ejecución normal del código.
 A diferencia de [traits en PHP](http://www.php.net/traits), los comportamientos se pueden unir a las clases en tiempo de ejecución.
 
 Usando comportamientos
----------------
+-------------------
 
 Un comportamiento puede ser unido a cualquier clase que extienda de [[yii\base\Component]] desde el código o por configuración
 de la aplicación.
@@ -74,7 +74,7 @@ class User extends ActiveRecord
 }
 ```
 
-### Uniendo comportamientos dinamicamente
+### Uniendo comportamientos dinámicamente
 
 Otro camino para unir un comportamiento a un componente es llamando al método `attachBehavior` como se muestra a continuación:
 

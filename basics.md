@@ -1,14 +1,13 @@
 Conceptos básicos de Yii
 =====================
 
-
 Componente y Objecto
 --------------------
 
 Las clases del framework Yii usualmente extienden de una de las dos clases base [[yii\base\Object]] o [[yii\base\Component]].
-Estas clases proveen útiles características que son añadidas automáticamente a todas las clases que las extienden.
+Estas clases proporcionan útiles características que son añadidas automáticamente a todas las clases que las extienden.
 
-La clase [[yii\base\Object|Object]] provee la [configuración y propiedades características](../api/base/Object.md).
+La clase [[yii\base\Object|Object]] proporciona la [configuración y propiedades características](../api/base/Object.md).
 La clase [[yii\base\Component|Component]] extiende de [[yii\base\Object|Object]] y añade 
 [Manejo de eventos](events.md) y [comportamientos](behaviors.md).
 
@@ -58,34 +57,33 @@ $object = Yii::createObject([
 ```
 
 
-Path Alias
-------------
+Path aliases
+-----------
 
 Yii 2.0 extiende el uso de path alias (alias de ruta) a rutas de fichero/directorio y URLs. Un alias debe comenzar
 con un símbolo `@` para que pueda ser diferenciado de rutas de fichero/directorio o de Urls.
 Por ejemplo, el alias `@yii` se refiere al directorio de instalación de Yii mientras que `@web` contiene la URL base para la actual aplicación web.
-Path alias son soportados en muchos lugares en el núcleo del código de Yii. Por ejemplo `FileCache::cachePath` puede aceptar un path alias o una ruta normal de directorio.
+Alias de ruta son soportados en muchos lugares en el núcleo del código de Yii.
+Por ejemplo `FileCache::cachePath` puede aceptar un alias de ruta o una ruta normal de directorio.
 
-Path alias son también 
+Los alias de ruta están muy relacionados con los nombres de espacio de clases. Es recomendado que un
+alias de ruta sea definido para cada nombre de espacio raiz de esa forma la clase de autocarga de Yii 
+puede ser usada sin ninguna configuración adicional. Por ejemplo, como `@yii` remite al directorio de instalación de Yii,
+una clase `yii\web\Request` pude ser cargada automáticamente por Yii. Si se utiliza una biblioteca de terceros 
+de Zend Framework, se puede definir un alias de ruta `@Zend` el cual remita a su directorio de instalación
+y Yii será capaz de cargar automáticamente cualquier clase en esta biblioteca.
 
-Path aliases are also closely related to class namespaces. It is recommended that a path
-alias be defined for each root namespace so that Yii's class autoloader can be used without
-any further configuration. For example, because `@yii` refers to the Yii installation directory,
-a class like `yii\web\Request` can be autoloaded by Yii. If you use a third party library
-such as Zend Framework, you may define a path alias `@Zend` which refers to its installation
-directory and Yii will be able to autoload any class in this library.
+Los siguientes alias son predefinidos por el núcleo del framework:
 
-The following aliases are predefined by the core framework:
+- `@yii` - directorio del framework.
+- `@app` - ruta base de la aplicación actual.
+- `@runtime` - directorio runtime.
+- `@vendor` - directorio vendor de Composer.
+- `@webroot` - directorio raiz de la web de la aplicación actual.
+- `@web` - URL base de la aplicación actual.
 
-- `@yii` - framework directory.
-- `@app` - base path of currently running application.
-- `@runtime` - runtime directory.
-- `@vendor` - Composer vendor directory.
-- `@webroot` - web root directory of currently running web application.
-- `@web` - base URL of currently running web application.
-
-Autoloading (Autocarga)
------------
+Autoloading
+----------
 
 Todas las clases, interfaces y traits (rasgos) son cargadas automáticamente en el momento que son usadas. No hay necesidad de usar `include` o `require`. 
 Esto es cierto para el cargador de paquetes de composer como también para las extensiones de Yii.
@@ -95,7 +93,7 @@ Eso significa que los espacios de nombres, clases, interfaces y traits (rasgos) 
 excepto para el nombre de espacio raiz que es definido por un alias.
 
 Por ejemplo, si el alias estándar `@app` se refiere a `/var/www/example.com/` entonces `\app\models\User` será cargado desde `/var/www/example.com/models/User.php`.
-Alias personalizados pueden ser añadidos usando el siguiente código.
+Un alias personalizado puede ser añadido usando el siguiente código.
 
 ```php
 Yii::setAlias('@shared', realpath('~/src/shared'));
