@@ -86,7 +86,7 @@ yii <route> --appconfig=path/to/config.php ...
 Creando comandos de consola propios
 -------------------------------
 
-### Console Controller and Action
+### Controlador y acción de consola
 
 Un comando de consola es definido como una clase controlador que extiende de [[yii\console\Controller]]. En la clase 
 controlador, se definen una o varias acciones que se corresponden con los subcomandos del comando. Dentro de cada acción,
