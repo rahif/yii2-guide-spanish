@@ -1,4 +1,4 @@
-Console applications
+Aplicaciones de consola
 ====================
 
 Yii ofrece un soporte completo de consola. Una aplicación de consola en Yii está estructurada en una forma muy similar 
