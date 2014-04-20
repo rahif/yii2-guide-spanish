@@ -100,62 +100,64 @@ Si una ruta no contiene un ID de la acción, la acción por defecto será ejecut
 
 ### Opciones
 
-By overriding the [[yii\console\Controller::options()]] method, you can specify options that are available
-to a console command (controller/actionID). The method should return a list of public property names of the controller class.
-When running a command, you may specify the value of an option using the syntax `--OptionName=OptionValue`.
-This will assign `OptionValue` to the `OptionName` property of the controller class.
+Sobreescribiendo el método [[yii\console\Controller::options()]] pueden especificarse opciones para que esten disponibles
+para un comando de consola (controller/actionID). El método debe devolver una lista de los nombres de las propiedades públicas
+de la clase del controlador.
+Cuando se ejecuta un comando, se puede especificar el valor de una opción usando la sintaxis `--OptionName=OptionValue`.
+Se asignará `OptionValue` a la propiedad `OptionName` de la clase del controlador.
 
-If the default value of an option is of array type, then if you set this option while running the command,
-the option value will be converted into an array by splitting the input string by commas.
+Si el valor por defecto de una opción es de tipo array, entonces si se establece esta opción al ejecutar el comando,
+el valor de la opción será convertido a un array dividiendo la cadena de entrada por comas.
 
-### Arguments
 
-Besides options, a command can also receive arguments. The arguments will be passed as the parameters to the action
-method corresponding to the requested sub-command. The first argument corresponds to the first parameter, the second
-corresponds to the second, and so on. If there are not enough arguments are provided, the corresponding parameters
-may take the declared default values, or if they do not have default value the command will exit with an error.
+### Argumentos
 
-You may use `array` type hint to indicate that an argument should be treated as an array. The array will be generated
-by splitting the input string by commas.
+Además de las opciones, un comando también puede recibir argumentos. Los argumentos se pasan como parámetros al método de la
+acción correspondiente al sub-comando solicitado. El primer argumento corresponde al primer parámetro, el segundo corresponde
+al segundo, etc... Si no se proporcionan suficientes argumentos, los parámetros correspondientes pueden tomar el valor
+declarado por defecto, o si no tienen valor por defecto el comando finalizará con un error.
 
-The follow examples show how to declare arguments:
+Se puede utilizar el tipo `array` para indicar que un argumento debe ser tratado como un array. El array será generado 
+dividiendo la cadena de entrada por comas.
+
+Los siguientes ejemplos muestran como declarar argumentos:
 
 ```php
 class ExampleController extends \yii\console\Controller
 {
-    // The command "yii example/create test" will call "actionCreate('test')"
+    // El comando "yii example/create test" llamará "actionCreate('test')"
     public function actionCreate($name) { ... }
 
-    // The command "yii example/index city" will call "actionIndex('city', 'name')"
-    // The command "yii example/index city id" will call "actionIndex('city', 'id')"
+    // El comando "yii example/index city" llamará "actionIndex('city', 'name')"
+    // El comando "yii example/index city id" llamará "actionIndex('city', 'id')"
     public function actionIndex($category, $order = 'name') { ... }
 
-    // The command "yii example/add test" will call "actionAdd(['test'])"
-    // The command "yii example/add test1,test2" will call "actionAdd(['test1', 'test2'])"
+    // El comando "yii example/add test" llamará "actionAdd(['test'])"
+    // El comando "yii example/add test1,test2" llamará "actionAdd(['test1', 'test2'])"
     public function actionAdd(array $name) { ... }
 }
 ```
 
 
-### Exit Code
+### Código de salida
 
-Using exit codes is the best practice of console application development. If a command returns `0` it means
-everything is OK. If it is a number greater than zero, we have an error and the number returned is the error
-code that may be interpreted to find out details about the error.
-For example `1` could stand generally for an unknown error and all codes above are declared for specific cases
-such as input errors, missing files, and so forth.
+El uso de códigos de salida es la mejor práctica de desarrollo de aplicaciones de consola. Si un comando 
+devuelve `0` significa que todo esta correcto. Si es un número más grande que cero, hay un error y el número 
+devuelto es el código de error que puede ser interpretado para averiguar detalles sobre el error.
+Por ejemplo, `1` puede asignarse en general para un error desconocido y todos los códigos superiores son
+declarados para casos específicos tales como errores de entrada, archivos perdidos, y así sucesivamente.
 
-To have your console command return with an exit code you simply return an integer in the controller action
-method:
+Para que un comando de consola devuelva un código de salida simplemente hay que devolver un entero en el
+método de la acción del controlador:
 
 ```php
 public function actionIndex()
 {
-    if (/* some problem */) {
-        echo "A problem occured!\n";
+    if (/* hay algún problema */) {
+        echo "Un problema en comando!\n";
         return 1;
     }
-    // do something
+    // hacer algo
     return 0;
 }
 ```
