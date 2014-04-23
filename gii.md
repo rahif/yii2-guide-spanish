@@ -106,7 +106,7 @@ la siguiente imagen:
 
 ![Gii preview](images/gii-preview.png)
 
-Pulsando en el nombre del archivo se puede ver una previsualización del código que será generado para ese fichero.
+Pulsando en el nombre del archivo se puede ver una vista previa del código que será generado para ese fichero.
 Si el fichero existía previamente, gii también proporciona una vista con las diferencias entre el código existente
 y el que será generado. En este caso hay que elegir que ficheros deben ser sobreescritos y cuales no.
 
