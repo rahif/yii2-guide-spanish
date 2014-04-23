@@ -1,12 +1,18 @@
-Authentication
-==============
+Autenticación
+============
 
-Authentication is the act of verifying who a user is, and is the basis of the login process. Typically, authentication uses the combination of an identifier--a username or email address--and a password. The user submits these values  through a form, and the application then compares the submitted information against that previously stored (e.g., upon registration).
+Autenticación es el acto de verificar que un usuario es quien dice ser, y es la base del proceso de inicio de sesión. 
+Normalmente, la autenticación utiliza la combinación de un identificador --un usuario o dirección de email -- y una clave.
+El usuario envia estos valores a través de un formulario y la aplicación compara esta información con la previamente
+almacenada (p. ej., al registrarse).
 
-In Yii, this entire process is performed semi-automatically, leaving the developer to merely implement [[yii\web\IdentityInterface]], the most important class in the authentication system. Typically, implementation of `IdentityInterface` is accomplished using the `User` model.
+En Yii, todo este proceso se realiza de forma semiautomática, dejando al desarrollador meramente implementar 
+[[yii\web\IdentityInterface]], la clase más importante en el sistema de autenticación.
+Normalmente, la implementación de `IdentityInterface` es acometida utilizando el modelo `User`.
 
-You can find a fully featured example of authentication in the
-[advanced application template](installation.md). Below, only the interface methods are listed:
+Se puede encontrar un ejemplo con todas las funciones de autenticación en la
+[Plantilla avanzada de la aplicación](installation.md).
+A continuación se muestra un listado con los métodos del interface:
 
 ```php
 class User extends ActiveRecord implements IdentityInterface
@@ -14,7 +20,7 @@ class User extends ActiveRecord implements IdentityInterface
     // ...
 
     /**
-     * Finds an identity by the given ID.
+     * Encontrar una identificacion por el ID dado.     
      *
      * @param string|integer $id the ID to be looked for
      * @return IdentityInterface|null the identity object that matches the given ID.
@@ -25,7 +31,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds an identity by the given token.
+     * Encontrar una identificacion por el token dado.     
      *
      * @param string $token the token to be looked for
      * @return IdentityInterface|null the identity object that matches the given token.
@@ -62,8 +68,12 @@ class User extends ActiveRecord implements IdentityInterface
 }
 ```
 
-Two of the outlined methods are simple: `findIdentity` is provided with an  ID value and returns a model instance associated with that ID. The `getId` method returns the ID itself.
-Two of the other methods--`getAuthKey` and `validateAuthKey`--are used to provide extra security to the "remember me" cookie. The `getAuthKey` method should return a string that is unique for each user. You can create reliably create a unique string using `Security::generateRandomKey()`. It's a good idea to also save this as part of the user's record:
+Dos de los métodos descritos son simples: `findIdentity` al que se proporciona un valor ID y devuelve una instancia del modelo
+asociado con ese ID. El método `getId` devuelve el ID.
+Los otros dos métodos -- `getAuthKey` y `validateAuthKey` -- son utilizados para proporcionar mayor seguridad a la cookie "remember me".
+El método `getAuthKey` debe devolver una cadena que es única para cada usuario. Se puede crear de forma fiable una cadena única usando
+`Security::generateRandomKey()`.
+Es una buena idea grabar también esta parte del registro de usuario:
 
 ```php
 public function beforeSave($insert)
@@ -78,4 +88,5 @@ public function beforeSave($insert)
 }
 ```
 
-The `validateAuthKey` method just needs to compare the `$authKey` variable, passed as parameter (itself retrieved from a cookie), with the value fetched from database.
+El método `validateAuthKey` solo necesita comparar la variable `$authKey` pasada como parámetro (recuperada de una cookie), con el valor
+obtenido de la base de datos.

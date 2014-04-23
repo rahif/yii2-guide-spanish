@@ -1,98 +1,97 @@
-The Definitive Guide to Yii 2.0
-===============================
+La guia definitiva de Yii 2.0
+==========================
 
-This tutorial is released under the [Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
+Este tutorial es liberado bajo los [Terminos de la documentación de Yii](http://www.yiiframework.com/doc/terms/).
 
-All Rights Reserved.
+Todos los derechos reservados.
 
 2014 (c) Yii Software LLC.
 
-
-Introduction
+Introducción
 ------------
 
-- [Overview](overview.md) - What is Yii and what is it good for?
+- [Vista general](overview.md) - ¿Qué es Yii y para qué es bueno?
 
-Getting started
----------------
-
-- [Upgrading from 1.1 to 2.0](upgrade-from-v1.md)
-- [Installation](installation.md) - How to download Yii and configure the Webserver?
-- [Configuration](configuration.md) - Configuration of a Yii application
-
-- [Basic Application Template](apps-basic.md) - A template to start a basic frontend application.
-- [Advanced Application Template](apps-advanced.md) - The basis for more advanced applications.
-
-- [Creating your own Application structure](apps-own.md) - Learn how to start from scratch.
-
-Base concepts
+Primeros pasos
 -------------
 
-- [Basic concepts of Yii](basics.md) - The Object and Component class, Path aliases and autoloading
-- [MVC](mvc.md) - Implementation of MVC in Yii and a typical MVC application flow
-  - [Model](model.md) - The Yii Model provides Attributes, Scenarios and data Validation
-  - [View](view.md) - Rendering Views applying layouts, using Widgets and asset management
-  - [Controller](controller.md) - controller actions, routing and action filters
-- [Event Handling](events.md) - The Yii event handling mechanism
-- [Behaviors](behaviors.md)
+- [Actualizar de 1.1 a 2.0](upgrade-from-v1.md)
+- [Instalación](installation.md) - ¿Cómo descargar Yii y configurar el servidor web?
+- [Configuración](configuration.md) - Configuración de una aplicación Yii
 
-Database
+- [Plantilla Básica de la Aplicación](apps-basic.md) - Una plantilla para comenzar una aplicación frontal básica template to start a basic frontend application.
+- [Plantilla Advanzada de la Aplicación](apps-advanced.md) - Lo básico para aplicaciones más avanzadas.
+
+- [Creando la estructura de una aplicación](apps-own.md) - Aprender como comenzar desde el principio.
+
+Conceptos de base
+-------------
+
+- [Conceptos básicos de Yii](basics.md) - El objeto y la clase componente, alias de rutas y autocarga
+- [MVC](mvc.md) - Implementación of MVC en Yii y un flujo típico en una aplicación MVC
+  - [Modelo](model.md) - El modelo Yii proporciona atributos, escenarios y validación de datos
+  - [Vista](view.md) - Interpretación de Vistas aplicando diseños, utilización de Widgets y gestión de activos
+  - [Controlador](controller.md) - acciones del controlador, enrutamiento y filtros de acción
+- [Manejo de Eventos](events.md) - El mecanismo de manejo de eventos de Yii
+- [Comportamientos](behaviors.md)
+
+Base de datos
 --------
 
-- [Basics](database-basics.md) - Connecting to a database, basic queries, transactions and schema manipulation
-- [Query Builder](query-builder.md) - Querying the database using a simple abstraction layer
-- [ActiveRecord](active-record.md) - The active record ORM, retrieving and manipulating records and defining relations
-- [Database Migration](console-migrate.md) - Versioning your database with database migration
+- [Básico](database-basics.md) - Conectar a una base de datos, consultas básicas, transacciones y manipulación de esquemas
+- [Query Builder](query-builder.md) - Consultando la base datos utilizando una capa de abstracción simple
+- [ActiveRecord](active-record.md) - El registro activo ORM, recuperar y manipular los registros y definir las relaciones
+- [Migración de base de datos](console-migrate.md) - Versionando una base de datos con migración
 
-Developers Toolbox
-------------------
-
-- [Helper Classes](helpers.md)
-- [Automatic Code Generation](gii.md)
-- [Debug toolbar and debugger](module-debug.md)
-- [Error Handling](error.md)
-- [Logging](logging.md)
-
-Extensions and 3rd party libraries
-----------------------------------
-
-- [Composer](composer.md) - How to manage applications dependencies via composer
-- [Extending Yii](extensions.md)
-- [Template engines](template.md) - Using template engines such as Smarty or Twig
-- [Using Yii together with 3rd-Party Systems](using-3rd-party-libraries.md) - Using Yii in 3rd-Party Systems and using Yii 1 and 2 together
-
-Security and access control
+Herramientas de Desarrolladores
 ---------------------------
 
-- [Authentication](authentication.md) - Identifying Users
-- [Authorization](authorization.md) - Access control and RBAC
-- [Security](security.md) - Hashing and verifying passwords, encryption
-- [Views security](view.md#security) - how to prevent XSS
+- [Clases de ayuda](helpers.md)
+- [Generación automática de código](gii.md)
+- [Debug toolbar and debugger](module-debug.md)
+- [Manejo de errores](error.md)
+- [Logging](logging.md)
 
-Data providers, lists and grids
--------------------------------
+Extensiones y bibliotecas de terceras partes
+---------------------------------------
 
-- [Overview](data-overview.md)
-- [Data providers](data-providers.md)
-- [Data widgets](data-widgets.md)
+- [Composer](composer.md) - Como administrar las dependencias de las aplicaciones via composer
+- [Extendiendo Yii](extensions.md)
+- [Motores de plantillas](template.md) - Utilizar motores de plantillas como Smarty o Twig
+- [Utilizar Yii junto con terceras partes](using-3rd-party-libraries.md) - Utilizar Yii con sistemas de terceras partes y utilizar Yii1 y Yii2 juntos
+
+Seguridad y control de acceso
+--------------------------
+
+- [Autenticación](authentication.md) - Identificar usuarios
+- [Autorización](authorization.md) - Control de acceso y RBAC
+- [Seguridad](security.md) - Hashing y verificación de claves, encriptación
+- [Seguridad en vistas](view.md#security) - Como prevenir XSS
+
+Proveedores de datos, listas y grids
+--------------------------------
+
+- [Vista general](data-overview.md)
+- [Proveedores de datos](data-providers.md)
+- [Widgets de datos](data-widgets.md)
 - [Grid](data-grid.md)
 
-Advanced Topics
+Temas avanzados
 ---------------
 
-- [Asset Management](assets.md)
-- [Working with forms](form.md)
-- [Bootstrap widgets](bootstrap-widgets.md) - Using [twitter bootstrap](http://getbootstrap.com/)
-- [Theming](theming.md)
-- [Caching](caching.md) - Caching data, page fragments and http requests
-- [Internationalization](i18n.md) - Message translation and formatting
-- [URL Management](url.md) - routing, customized urls and SEO
-- [Console Application](console.md)
-- [Performance Tuning](performance.md)
-- [Testing](testing.md)
+- [Administración de activos](assets.md)
+- [Trabajando con formularios](form.md)
+- [Bootstrap widgets](bootstrap-widgets.md) - Utilizando [twitter bootstrap](http://getbootstrap.com/)
+- [Temas](theming.md)
+- [Caché](caching.md) - Utilizar datos de memoria Caché, fragmentos de páginas y peticiones http
+- [Internacionalización](i18n.md) - Traducción de mensajes y formateo
+- [Administración de URL](url.md) - Enrutamiento, urls personalizadas y SEO
+- [Aplicación de consola](console.md)
+- [Ajuste de rendimiento](performance.md)
+- [Pruebas](testing.md)
 
-References
+Referencias
 ----------
 
-- [Model validation reference](validation.md)
-- [Official Composer documentation](http://getcomposer.org)
+- [Validación del modelo de referencia](validation.md)
+- [Documentación oficial de Composer](http://getcomposer.org)
