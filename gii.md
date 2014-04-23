@@ -4,8 +4,8 @@ Yii incluye una útil herramienta, llamada Gii, que proporciona prototipos rápi
 así como controladores de CRUD completos.
 
 
-Instalando y configurando
-----------------------
+Instalación y Configuración
+---------------------------
 
 Gii es una extensión oficial de Yii. La forma principal para instalar esta extensión es a través de
 [Composer](http://getcomposer.org/download/).
@@ -129,13 +129,13 @@ permisos de los directorios para que el servidor web sea capaz de escribir en el
   
 
 Creando plantillas personalizadas
------------------------------
+---------------------------------
 
 Cada generador tiene un campo de formulario que deja elegir una plantilla para el uso de la generación del código.
 Por defecto gii solo proporciona una plantilla pero se puede crear una plantilla para personalizar el código.
 
 
-If you open a folder `@app\vendor\yiisoft\yii2-gii\generators`, you'll see six folders of generators.
+Si miras en la carpeta `@app\vendor\yiisoft\yii2-gii\generators`, veras seis carpetas de generadores.
 ```
 + controller
 - crud
@@ -145,10 +145,10 @@ If you open a folder `@app\vendor\yiisoft\yii2-gii\generators`, you'll see six f
 + model
 + module
 ```
-This is name generator. If you open any of these folders, you can see the folder `default`. This folder is name of the template.
+Son los nombres de los generadores. Si abres cualquiera de esas carpetas, veras la carpeta llamada `default`. La carpeta es el nombre de la plantilla.
 
-Copy folder `@app\vendor\yiisoft\yii2-gii\generators\crud\default` to another location, for example `@app\myTemplates\crud\`.
-Now open this folder and modify any template to fit your desires, for example, add `errorSummary` in `views\_form.php`:
+Copia la carpeta `@app\vendor\yiisoft\yii2-gii\generators\crud\default` en otro lugar, por ejemplo `@app\myTemplates\crud\`.
+Ahora abre esta carpeta y modifica cualquier plantilla que se adecue a tus necesidades, por ejemplo, añade `errorSummary` en `views\_form.php`:
 
 ```php
 <?php
@@ -156,17 +156,17 @@ Now open this folder and modify any template to fit your desires, for example, a
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
 
     <?= "<?php " ?>$form = ActiveForm::begin(); ?>
-    <?= "<?=" ?> $form->errorSummary($model) ?> <!-- ADDED HERE -->
+    <?= "<?=" ?> $form->errorSummary($model) ?> <!-- AÑADIDO AQUÍ -->
     <?php foreach ($safeAttributes as $attribute) {
         echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
     } ?>
 //...
 ```
 
-Now you need to tell GII about our template.The setting is made in the config file:
+Ahora tienes que configurar GII para que sepa de tu plantilla. Esta configuración se hace en el documento de configuración de la aplicación:
 
 ```php
-// config/web.php for basic app
+// config/web.php para basic app
 // ...
 if (YII_ENV_DEV) {    
     $config['modules']['gii'] = [
@@ -174,27 +174,27 @@ if (YII_ENV_DEV) {
         'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'],  
         'generators' => [ //here
             'crud' => [ //name generator
-                'class' => 'yii\gii\generators\crud\Generator', //class generator
-                'templates' => [ //setting for out templates
-                    'myCrud' => '@app\myTemplates\crud\default', //name template => path to template
+                'class' => 'yii\gii\generators\crud\Generator', //generador de clases
+                'templates' => [ //configurando las plantillas
+                    'myCrud' => '@app\myTemplates\crud\default', //nombre de la plantilla => dirección de la plantilla
                 ]
             ]
         ],
     ];
 }
 ```
-Open the CRUD generator and you will see that in the field `Code Template` of form appeared own template .
+Abre el generador CRUD y veras que en el campo `Code Template` del formulario aparecerá el resultado de nuestra plantilla.
 
 
-Creating your own generators
-----------------------------
+Creando tus propios generadores
+-------------------------------
 
-Open the folder of any generator and you will see two files `form.php` and `Generator.php`.
-One is the form, the second is the class generator. For create your own generator, you need to create or
-override these classes in any folder. Again as in the previous paragraph customize configuration:
+Abre la carpeta de cualquier generador y verás dos documentos `form.php` y `Generator.php`. 
+Uno es el formulario, el otro es la clase del generador. Para crear tu propio generador, tendras que crear o sobrescribir 
+esas clases en cualquiera de las carpetas. De nuevo como en el párrafo anterior customize la configuración:
 
 ```php
-//config/web.php for basic app
+//config/web.php para basic app
 //..
 if (YII_ENV_DEV) {    
     $config['modules']['gii'] = [
@@ -226,13 +226,13 @@ class Generator extends \yii\gii\Generator
 
     public function getDescription()
     {
-        return 'My crud generator. The same as a native, but he is mine...';
+        return 'Mi generador crud. Igual como el nativo, pero es mío...';
     }
     
     // ...
 }
 ```
 
-Open Gii Module and you will see a new generator appears in it.
+Abre el Modulo Gii y veras que un nuevo generador aparece en él.
 
 
