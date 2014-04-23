@@ -1,29 +1,28 @@
-The Gii code generation tool
-============================
+La herramienta de generación de código de Yii
+========================================
+Yii incluye una útil herramienta, llamada Gii, que proporciona prototipos rápidos mediante la generación de fragmentos de código de uso común
+así como controladores de CRUD completos.
 
-Yii includes a handy tool, named Gii, that provides rapid prototyping by generating commonly used code snippets
-as well as complete CRUD controllers.
 
+Instalando y configurando
+----------------------
 
-Installing and configuring
---------------------------
+Gii es una extensión oficial de Yii. La forma principal para instalar esta extensión es a través de
+[Composer](http://getcomposer.org/download/).
 
-Gii is an offical Yii extension. The preferred way to install this extension is through
-[composer](http://getcomposer.org/download/).
-
-You can either run this command:
+Ejecutar el siguiente comando:
 
 ```
 php composer.phar require --prefer-dist yiisoft/yii2-gii "*"
 ```
 
-Or you can add this code to the require section of your `composer.json` file:
+O añadir este código a la sección `require` del archivo `composer.json`:
 
 ```
 "yiisoft/yii2-gii": "*"
 ```
 
-Once the Gii extension has been installed, you enable it by adding these lines to your application configuration file:
+Una vez que la extensión Gii ha sido instalada, habilitarla añadiendo las siguientes lineas al archivo de configuración:
 
 ```php
 'modules' => [
@@ -33,43 +32,45 @@ Once the Gii extension has been installed, you enable it by adding these lines t
 ]
 ```
 
-You can then access Gii through the following URL:
+Acceder a Gii a través de la siguiente URL:
 
 ```
 http://localhost/path/to/index.php?r=gii
 ```
 
-> Note: if you are accessing gii from an IP address other than localhost, access will be denied by default. To circumvent that default, add the allowed IP addressess to the configuration:
+> Nota: para acceder a Gii desde una dirección IP distinta a la local, el acceso será denegado por defecto.
+Para sortear el valor por defecto, añadir las direcciones Ip permitidas a la configuración:
+
 >
 ```php
 'gii' => [
     'class' => 'yii\gii\Module',
-    'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'] // adjust this to your needs
+    'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'] // ajustar según se necesite
 ],
 ```
 
-### Basic application
+### Plantilla básica de la Aplicación
 
-In basic application template configuration structure is a bit different so Gii should be configured in
-`config/web.php`:
+La estructura de la aplicación de la plantilla básica es un poco diferente por lo que Gii debe ser 
+configurado en `config/web.php`:
 
 ```php
 // ...
 if (YII_ENV_DEV)
 {
-    // configuration adjustments for 'dev' environment
+    // ajustes en la configuración para el entorno 'dev'
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = 'yii\debug\Module';
-    $config['modules']['gii'] = 'yii\gii\Module'; // <--- here
+    $config['modules']['gii'] = 'yii\gii\Module'; // <--- Aquí
 }
 ```
 
-So in order to adjust IP address you need to do it like the following:
+Así que con el fin de ajustar la dirección IP se tiene que hacer lo siguiente:
 
 ```php
 if (YII_ENV_DEV)
 {
-    // configuration adjustments for 'dev' environment
+    // ajustes en la configuración para el entorno 'dev'    
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = 'yii\debug\Module';
     $config['modules']['gii'] = [
@@ -79,56 +80,60 @@ if (YII_ENV_DEV)
 }
 ```
 
-How to use it
+Cómo utilizarlo
 -------------
 
-When you open Gii you first see the entry page that lets you choose a generator.
+Cuando se abre Gii por primera vez la página de entrada deja elegir un generador.
 
-![Gii entry page](images/gii-entry.png)
+![Página de entrada de Gii](images/gii-entry.png)
 
-By default there are the following generators available:
+Por defecto están disponibles los siguientes generadores:
 
-- **Model Generator** - This generator generates an ActiveRecord class for the specified database table.
-- **CRUD Generator** - This generator generates a controller and views that implement CRUD (Create, Read, Update, Delete)
-  operations for the specified data model.
-- **Controller Generator** - This generator helps you to quickly generate a new controller class, one or several
-  controller actions and their corresponding views.
-- **Form Generator** - This generator generates a view script file that displays a form to collect input for the
-  specified model class.
-- **Module Generator** - This generator helps you to generate the skeleton code needed by a Yii module.
+- **Generador de Modelo** - Genera una clase ActiveRecord para la tabla especificada de la base de datos.
+- **Generador de CRUD** - Genera un controlador y las vistas que implementan el CRUD (Crear, Leer, Actualizar, Borrar),
+  las operaciones para el modelo de datos especificado. (CRUD son las siglas en inglés)  
+- **Generador de controlador** - Ayuda a generar rapidamente una nueva clase controlador, una o algunas acciones del
+  controlador y sus correspondientes vistas.
+- **Generador de formulario** - Genera un archivo de vista que presenta en pantalla un formulario para recoger información para
+  la clase del modelo especificado.
+- **Generador de módulo** - Ayuda a generar el código necesario para componer la estructura para un módulo de Yii.
 
-After choosing a generator by clicking on the "Start" button you will see a form that allows you to configure the
-parameters of the generator. Fill out the form according to your needs and press the "Preview" button to get a
-preview of the code that gii is about to generated. Dependend on the generator you chose and whether the files
-already existed or not you will get an ouput similar to what you see in the following picuture:
+
+Después de elegir un generador pulsando en el botón "start" se mostrará un formulario que permite configurar los
+parámetros del generador. Rellenar el formulario y pulsar el botón "Preview" para obtener un avance del código generado por gii.
+Dependiendo del generador elegido y si los archivos existían previamente o no, se obtendrá una salida similar a la mostrada en
+la siguiente imagen:
 
 ![Gii preview](images/gii-preview.png)
 
-Clicking on the file name you can view a preview of the code that will be generated for that file.
-When the file already exists, gii also provides a diff view that shows what is different between the code that exists
-and the one that will be generated. In this case you can also choose which files should be overridden and which not.
-
-> Tip: When using the Model Generator to update models after database change, you can copy the code from gii preview
-  and merge the changes with your own code. You can use IDE features like PHPStorms
-  [compare with clipboard](http://www.jetbrains.com/phpstorm/webhelp/comparing-files.html) for this,
-  which allows you to merge in relevant changes and leave out others that may revert your own code.
-
-After you have reviewed the code and selected the files to be generated you can click the "Generate" button to create
-the files. If all went fine you are done. When you see errors that gii is not able to generate the files you have to
-adjust directory permissions so that your webserver is able to write to the directories and create the files.
-
-> Note: The code generated by gii is only a template that has to be adjusted to your needs. It is there
-  to help you create new things quickly but it is not something that creates ready to use code.
-  We often see people using the models generated by gii without change and just extend them to adjust
-  some parts of it. This is not how it is meant to be used. Code generated by gii may be incomplete or incorrect
-  and has to be changed to fit your needs before you can use it.
+Pulsando en el nombre del archivo se puede ver una previsualización del código que será generado para ese fichero.
+Si el fichero existía previamente, gii también proporciona una vista con las diferencias entre el código existente
+y el que será generado. En este caso hay que elegir que ficheros deben ser sobreescritos y cuales no.
 
 
-Creating your own templates
----------------------------
+> Consejo: Cuando se utiliza el generador de modelo para actualizar los modelos después de un cambio en la base de datos, puede
+  copiar el código de la vista previa de gii y fusionar los cambios con su propio código. Puede usar las características de un
+  IDE como PHPStorms [comparar con el portapapeles](http://www.jetbrains.com/phpstorm/webhelp/comparing-files.html)
+  para esto, lo cual permite fusionar cambios relevantes y mantener otros que podrían revertir el código.
+  
+Después de revisar el código y seleccionar los archivos para ser generados pulsar el botón "Generate" para crear los archivos.
+Si todo ha ido bien ya esta terminado. Si hay errores de que gii no es capaz de generar los archivos hay que cambiar los
+permisos de los directorios para que el servidor web sea capaz de escribir en ellos y también pueda crear los archivos.
 
-Every generator has a form field that lets you choose a template to use for code generation.
-By default gii only provides one template but you can create your own templates that are adjusted to your needs.
+> Nota: El código generado por gii es solo una plantilla que debe ser personaliza según la aplicación. Esta ahí para ayudar en
+  la creación de nuevas cosas rapidamente pero no es algo que crea código listo para usar.
+  A menudo la gente usa los modelos generados por gii sin cambiar y solo los extienden para ajustar algunas partes de el.
+  Esta no es la forma en que está destinado a ser utilizado. El código generado por gii puede estar incompleto o incorrecto
+  y tiene que ser cambiado para ajustarse a las necesidades de la aplicación antes de su uso.
+ 
+  
+
+Creando plantillas personalizadas
+-----------------------------
+
+Cada generador tiene un campo de formulario que deja elegir una plantilla para el uso de la generación del código.
+Por defecto gii solo proporciona una plantilla pero se puede crear una plantilla para personalizar el código.
+
 
 TBD
 
