@@ -46,7 +46,7 @@ Base de datos
 Herramientas de Desarrolladores
 ---------------------------
 
-- [Helper Classes](helpers.md)
+- [Clases de ayuda](helpers.md)
 - [Generación automática de código](gii.md)
 - [Debug toolbar and debugger](module-debug.md)
 - [Manejo de errores](error.md)
@@ -88,7 +88,7 @@ Temas avanzados
 - [Administración de URL](url.md) - Enrutamiento, urls personalizadas y SEO
 - [Aplicación de consola](console.md)
 - [Ajuste de rendimiento](performance.md)
-- [Testing](testing.md)
+- [Pruebas](testing.md)
 
 Referencias
 ----------
