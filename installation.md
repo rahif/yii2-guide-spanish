@@ -1,107 +1,110 @@
-Installation
+Instalación
 ============
 
-There are two ways you can install the Yii framework:
+Hay 2 caminos para instalar el framework Yii:
 
-* Via [Composer](http://getcomposer.org/) (recommended)
-* Download an application template containing all site requirements, including the Yii framework itself
+* Via [Composer](http://getcomposer.org/) (recomendado)
+* Descargar una plantilla de la aplicación conteniendo todos los requerimientos del sitio, incluyendo el propio framework
 
 
-Installing via Composer
------------------------
+Instalando via Composer
+---------------------
 
-The recommended way to install Yii is to use the [Composer](http://getcomposer.org/) package manager. If you do not already
-have Composer installed, you may download it from [http://getcomposer.org/](http://getcomposer.org/) or run the following command:
+El camino recomendado para instalar Yii es utilizar el gestor de paquetes [Composer](http://getcomposer.org/). Si no dispone
+de composer, puede descargarlo de [http://getcomposer.org/](http://getcomposer.org/) o ejecutar el siguiente comando:
 
 ```
 curl -s http://getcomposer.org/installer | php
 ```
 
-We strongly recommend a global composer installation.
+Se recomienda encarecidamente una instalación global de Composer.
 
-For problems or more information, see the official Composer guide:
+Para problemas o más información, ver la guia oficial de Composer:
 
 * [Linux](http://getcomposer.org/doc/00-intro.md#installation-nix)
 * [Windows](http://getcomposer.org/doc/00-intro.md#installation-windows)
 
-With Composer installed, you can create a new Yii site using one of Yii's ready-to-use application templates.
-Based on your needs, choosing the right template can help bootstrap your project.
+Con Composer instalado, puede crearse un sitio Yii utilizando una de las plantillas de Yii preparadas para usar.
+Según sus necesidades, elegir la plantilla adecuada puede ayudar a inicializar un proyecto.
 
-Currently, there are two application templates available:
+Actualmente, hay 2 plantillas de la aplicación disponibles:
 
-- The [Basic Application Template](https://github.com/yiisoft/yii2-app-basic) - just a basic frontend application template.
-- The [Advanced Application Template](https://github.com/yiisoft/yii2-app-advanced) - consisting of a  frontend, a backend,
-  console resources, common (shared code), and support for environments.
+- [Plantilla básica de la aplicación](https://github.com/yiisoft/yii2-app-basic) - Solo un plantilla básica para la parte pública.
+- [Plantilla avanzada de la aplicación](https://github.com/yiisoft/yii2-app-advanced) - Consiste en una parte pública, una restringida,
+  unos recursos para la parte de consola, partes comunes (código compartido) y soporte para entornos.
 
-For installation instructions for these templates, see the above linked pages.
-To read more about the ideas behind these application templates and proposed usage,
-refer to the [basic application template](apps-basic.md) and [advanced application template](apps-advanced.md) documents.
+Para instrucciones de la instalación de estas plantillas, ver las páginas de los enlaces proporcionados a continuación.
+Para leer más sobre las ideas detrás de estas plantillas de la aplicación usos propuestos, remitir a los documentos de
+[Plantilla básica de la aplicación](apps-basic.md) y [Plantilla avanzada de la aplicación](apps-advanced.md).
 
-If you do not want to use a template and want to start from scratch you'll find information in the document about
-[creating your own application structure](apps-own.md). This is only recommended for advanced users.
-
-
-Installing from zip
--------------------
-
-Installation from a zip file involves two steps:
-
-   1. Downloading an application template from [yiiframework.com](http://www.yiiframework.com/download/).
-   2. Unpacking the downloaded file.
-
-If you only want the Yii Framework files you can download a ZIP file directly from [github](https://github.com/yiisoft/yii2-framework/releases).
-To create your application you might want to follow the steps described in [creating your own application structure](apps-own.md).
-This is only recommended for advanced users.
-
-> Tip: The Yii framework itself does not need to be installed under a web-accessible directory.
-A Yii application has one entry script which is usually the only file that absolutely must be
-exposed to web users (i.e., placed within the web directory). Other PHP scripts, including those
-part of the Yii Framework, should be protected from web access to prevent possible exploitation by hackers.
+Si no se quiere usar una plantilla y se quiere comenzar desde el principio hay disponible información en el siguiente documento
+[creando la estructura de una aplicación propia](apps-own.md). Esto solo es recomendado para usuarios avanzados.
 
 
-Requirements
-------------
+Instalando desde un zip
+--------------------
 
-After installing Yii, you may want to verify that your server satisfies
-Yii's requirements. You can do so by running the requirement checker
-script in a web browser or from the command line.
+La instalación desde un archivo zip requiere dos pasos:
 
-If you have installed a Yii application template via zip or composer you'll find a `requirements.php` file in the
-base directory of your application.
+   1. Descarga de una plantilla de la aplicación desde [yiiframework.com](http://www.yiiframework.com/download/).
+   2. Descomprimir el archivo descargado
 
-In order to run this script on the command line use the following command:
+Si solo se quieren los archivos del framework Yii puede descargarse un archivo ZIP directamente desde 
+[github](https://github.com/yiisoft/yii2-framework/releases).
+Para crear una aplicación se pueden seguir los pasos descritos en [creating your own application structure](apps-own.md).
+Esto solo es recomendado para usuarios avanzados.
+
+> Consejo: El propio framework Yii no necesita ser instalado bajo un directorio accesible via web.
+Una aplicación Yii tiene un script de entrada que es usualmente el único archivo que debe ser expuesto
+a los usuarios web (es decir, colocado dentro del directorio web). Otros scripts PHP, incluyendo los 
+del framework Yii, deben ser protegidos del acceso via web para prevenir posibles ataques por hackers.
+
+
+Requiremientos
+-------------
+
+Después de instalar Yii, puede querer verificar si el servidor cumple los requerimientos de Yii.
+Puede hacerlo ejecutando el script comprobador de requerimientos en un navegador o desde la linea de comandos.
+
+Si se ha instalado una plantilla de una aplicación Yii via zip o Composer se encontrará un archivo `requirements.php`
+en el directorio base de la aplicación.
+
+Con el fin de ejecutar este script en la línea de comandos utilice el siguiente comando:
 
 ```
 php requirements.php
 ```
 
-In order to run this script in your browser, you should ensure it is accessable by the webserver and
-access `http://hostname/path/to/yii-app/requirements.php` in your browser.
-If you are using Linux you can create a soft link to make it accessable, using the following command:
+Con el fin de ejecutar este script en un navegador, debe asegurarse que sea accesible por el servidor web y
+acceder a `http://hostname/path/to/yii-app/requirements.php` desde el navegador.
+En caso de usar linux se puede crear un "enlace blando" para hacerlo accesible utilizando el siguiente comando:
 
 ```
 ln -s requirements.php ../requirements.php
 ```
 
-For the advanded app the `requirements.php` is two levels up so you have to use `ln -s requirements.php ../../requirements.php`.
-
-Yii 2 requires PHP 5.4.0 or higher. Yii has been tested with the [Apache HTTP server](http://httpd.apache.org/) and
-[Nginx HTTP server](http://nginx.org/) on Windows and Linux.
-Yii may also be usable on other web servers and platforms, provided that PHP 5.4 or higher is supported.
+Para la aplicación con la plantilla avanzada el archivo `requirements.php` esta 2 niveles arriba por lo que se tiene
+que utilizar `ln -s requirements.php ../../requirements.php`.
 
 
-Recommended Apache Configuration
---------------------------------
+Yii 2 requiere PHP 5.4.0 o superior. Yii ha sido probado con el [Servidor HTTP Apache](http://httpd.apache.org/) y
+el [Servidor HTTP Nginx](http://nginx.org/) en Windows y Linux.
+Yii también puede funcionar en otros servidores web y en otras plataformas, siempre que PHP 5.4 o superior sea soportado.
 
-Yii is ready to work with a default Apache web server configuration. As a security measure, Yii comes with `.htaccess`
-files in the Yii framework folder to deny access to those restricted resources.
+Configuración recomendada de Apache
+-------------------------------
 
-By default, requests for pages in a Yii-based site go through the bootstrap file, usually named `index.php`, and placed
-in the application's `web` directory. The result will be URLs in the format `http://hostname/index.php/controller/action/param/value`.
+Yii esta preparado para funcionar en una configuración por defecto del servidor web Apache. Como una medida de seguridad, Yii
+viene con los archivos `.htaccess` en las carpetas del framework Yii para denegar el acceso a recursos restringidos.
 
-To hide the bootstrap file in your URLs, add `mod_rewrite` instructions to the `.htaccess` file in your web document root
-(or add the instructions to the virtual host configuration in Apache's `httpd.conf` file, `Directory` section for your webroot).
-The applicable instructions are:
+Por defecto, peticiones para páginas en un sitio basado en Yii van a través del archivo de inicio, normalmente llamado `index.php`,
+y situado en el directorio web de la aplicación.
+El resultado serán las URLs en el formato `http://hostname/index.php/controller/action/param/value`.
+
+Para ocultar el archivo de inicio en las URLs, añadir las instrucciones `mod_rewrite` al archivo `.htaccess` en la raiz del servidor
+(o añadir las instrucciones a la configuración del host virtual en el archivo `httpd.conf` de Apache, en la sección `Directory`
+para la directorio raiz de la web). Las instrucciones aplicables son:
+
 
 ~~~
 RewriteEngine on
@@ -114,13 +117,15 @@ RewriteRule . index.php
 ~~~
 
 
-Recommended Nginx Configuration
--------------------------------
+Configuración recomendada de Nginx
+------------------------------
 
-Yii can also be used with the popular [Nginx](http://wiki.nginx.org/) web server, so long it has PHP installed as
-an [FPM SAPI](http://php.net/install.fpm). Below is a sample host configuration for a Yii-based site on Nginx.
-The configuration tells the server to send all requests for non-existent resources through the bootstrap file,
-resulting in "prettier" URLs without the need for `index.php` references.
+Yii también puede ser utilizado con el popular servidor web [Nginx](http://wiki.nginx.org/), en tanto PHP haya sido instalado
+con [FPM SAPI](http://php.net/install.fpm). Debajo se muestra un ejemplo de la configuración de un host para un sitio
+basado en Yii con Nginx.
+La configuración dice al servidor que envie todas las peticiones para recursos no existentes a través del archivo de inicio,
+dando como resultado las direcciones URL "más bonitas", sin necesidad de referencias a `index.php`.
+
 
 ```
 server {
@@ -138,12 +143,12 @@ server {
     access_log  /path/to/project/log/access.log  main;
     error_log   /path/to/project/log/error.log;
 
-    location / {
-        # Redirect everything that isn't real file to yii bootstrap file including arguments.
+    location / {        
+        # Redirigir todo lo que no es un archivo real al archivo de inicio de yii incluyendo los argumentos
         try_files $uri $uri/ /$yii_bootstrap?$args;
     }
-
-    # uncomment to avoid processing of calls to unexisting static files by yii
+    
+    # descomentar para evitar llamadas de procesamiento por Yii de archivos inexistentes
     #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
     #    try_files $uri =404;
     #}
@@ -161,8 +166,8 @@ server {
 }
 ```
 
-When using this configuration, you should set `cgi.fix_pathinfo=0` in the `php.ini` file in order to avoid many unnecessary system `stat()` calls.
+Cuando esta configuración es utilizada, debe configurarse `cgi.fix_pathinfo=0` en el archivo `php.ini` con el fin de evitar innecesarias
+llamadas `stat()` del sistema .
 
-
-Note that when running a HTTPS server you need to add `fastcgi_param HTTPS on;` in order for Yii to properly detect if
-connection is secure.
+Notar que cuando un servidor HTTPS esta en ejecución es necesario añadir `fastcgi_param HTTPS on;` para que Yii debidamente detecte
+si la conexión es segura.
