@@ -1,8 +1,8 @@
-Error Handling
-==============
+Manejo de Errores
+===============
 
-Error handling in Yii is different than handling errors in plain PHP. First of all, Yii will convert all non-fatal errors
-to *exceptions*:
+El manejo de errores en Yii es diferente al manejo de errores en PHP plano. Lo primero de todo, Yii convierte todos los
+errores no fatales a *exceptions*:
 
 ```php
 use yii\base\ErrorException;
@@ -14,24 +14,26 @@ try {
     Yii::warning("Tried dividing by zero.");
 }
 
-// execution may continue
+// La ejecución puede continuar
 ```
 
-As demonstrated above you may handle errors using `try`-`catch`.
+Como puede verse en el código anterior se pueden manejar errores utilizando un bloque `try`-`catch`.
 
-Second, even fatal errors in Yii are rendered in a nice way. This means that in debugging mode, you can trace the causes
-of fatal errors in order to more quickly identify the cause of the problem.
+Por otra parte, incluso un fatal error es renderizado en Yii una manera agradable. Esto significa que en modo debug, se 
+pueden trazar las causas de un fatal error pudiendo identificar la causa del problema más rápidamente.
 
 
-Rendering errors in a dedicated controller action
--------------------------------------------------
+Renderización de los errores en una acción de controlador dedicado
+-----------------------------------------------------------
 
-The default Yii error page is great when developing a site, and is acceptable for production sites if `YII_DEBUG`
-is turned off in your bootstrap `index.php` file. But you may want to customize the default error page to make it
-more suitable for your project.
+La página de error de Yii es fantástica cuando se esta desarrollando un sitio web, y es aceptable para sitios en producción 
+mientras `YII_DEBUG` tenga el valor `true` en el archivo de inicio `index.php`.
+Esta página puede personalizarse para hacerla más adecuada a un determinado proyecto.
 
-The easiest way to create a custom error page it is to use a dedicated controller action for error rendering. First,
-you'll need to configure the `errorHandler` component in the application's configuration:
+La forma más fácil para crear una página de error personalizada es utilizar una acción de controlador dedicado para 
+el renderizado del error. 
+En primer lugar, hay que configurar el componente `errorHandler` en la configuración de la aplicación:
+
 
 ```php
 // ...
@@ -43,8 +45,8 @@ you'll need to configure the `errorHandler` component in the application's confi
 ]
 ```
 
-With that configuration in place, whenever an error occurs, Yii will execute the `error`-action of the `site`-controller.
-That action should look for an exception and, if present, render the proper view file, passing along the exception:
+Tomando la configuración anterior, si un error ocurre, Yii ejecutará la acción `error` del controlador `site`.
+Esa acción debe buscar una excepcion y si la encuentra renderizar el archivo de vista adecuado, pasando la excepción. 
 
 ```php
 public function actionError()
@@ -56,22 +58,23 @@ public function actionError()
 }
 ```
 
-Next, you would create the `views/site/error.php` file, which would make use of the exception. The exception object has
-the following properties:
+A continuación, crear el archivo `views/site/error.php`, en el cual se puede utilizar la excepción para identificar el error.
+El objeto excepción tiene las siguientes propiedades:
 
-- `statusCode`: the HTTP status code (e.g. 403, 500). Available for [[yii\web\HttpException|HTTP exceptions]] only.
-- `code`: the code of the exception.
-- `message`: the error message.
-- `file`: the name of the PHP script file where the error occurs.
-- `line`: the line number of the code where the error occurs.
-- `trace`: the call stack of the error.
+- `statusCode`: El código del estado HTTP (p. ej. 403, 500). Solo disponible para [[yii\web\HttpException|HTTP exceptions]].
+- `code`: El código de la excepción.
+- `message`: El mensaje de error.
+- `file`: El nombre del archivo PHP donde se ha producido el error.
+- `line`: El número de línea del código donde se ha producido el error.
+- `trace`: La pila de llamadas del error.
 
 
-Rendering errors without a dedicated controller action
-------------------------------------------------------
+Renderización de los errores sin una acción de controlador dedicado
+-----------------------------------------------------------
 
-Instead of creating a dedicated action within the Site controller, you could just indicate to Yii what class should
-be used to handle errors:
+En lugar de crear una acción especializada dentro del controlador Site, podría indicarse a Yii que clase debe ser utilizada
+para el manejo de errores:
+
 
 ```php
 public function actions()
@@ -84,11 +87,11 @@ public function actions()
 }
 ```
 
-After associating the class with the error as in the above, define the `views/site/error.php` file, which will
-automatically be used. The view will be passed three variables:
+Después de asociar la clase con el error como se ha indicado previamente, definir el archivo `views/site/error.php`,
+el cual será utilizado automáticamente. Tres variables serán pasadas a la vista:
 
-- `$name`: the error name
-- `$message`: the error message
-- `$exception`: the exception being handled
+- `$name`: El nombre del error
+- `$message`: El mensaje del error
+- `$exception`: La excepción que esta siendo manejada.
 
-The `$exception` object will have the same properties as outlined above.
+El objeto `$exception` tendrá las mismas propiedades que las resaltadas arriba.
