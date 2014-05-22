@@ -1,43 +1,45 @@
-Database Migration
-==================
+Migración de base de datos
+=======================
 
-Like source code, the structure of a database evolves as a database-driven application is developed and maintained. For example, during development, a new table may be added; Or, after the application goes live, it may be discovered that an additional index is required. It is important to keep track of these structural database changes (called **migration**), just as changes to the source code is tracked using version control. If the source code and the database become out of sync, bugs will occur, or the whole application might break. For this reason, Yii provides a database migration
-tool that can keep track of database migration history, apply new migrations, or revert existing ones.
+Como el código fuente, la estructura de una base de datos evoluciona impulsada por el desarrollo y mantenimiento de la aplicación.
+Por ejemplo, durante el desarrollo, una nueva tabla puede ser añadida; O después de poner en marcha la aplicación, puede descubrirse que un nuevo índice es requerido.
+Es importante mantener el rastro de estos cambios estructurales de la base de datos (llamados **migraciones**), al igual que se hace un seguimiento de los cambios en el código fuente mediante un control de versiones.
+Si el código fuente y la base de datos dejan de estar sincronizadas, aparecerán errores, o la aplicación en general puede dejar de funcionar.
+Por esta razón, Yii proporciona una herramienta de migración de base de datos que puede mantener el rastro del historial de las migraciones, aplicar nuevas migraciones, o revertir las existentes.
 
-The following steps show how database migration is used by a team during development:
+Los siguientes pasos muestran como es utilizada la migración de base de datos por un equipo durante el desarrollo:
 
-1. Tim creates a new migration (e.g. creates a new table, changes a column definition, etc.).
-2. Tim commits the new migration into the source control system (e.g. Git, Mercurial).
-3. Doug updates his repository from the source control system and receives the new migration.
-4. Doug applies the migration to his local development database, thereby syncing his database to reflect the changes Tim made.
+1. Tim crea una nueva migración (p.ej. crea una nueva tabla, cambia la definición de una columna, etc.).
+2. Tim confirma la nueva migración dentro del código fuente del sistema de control de versiones (p. ej. Git, Mercurial).
+3. Doug actualiza su repositorio desde el sistema de control de versiones y recibe la nueva migración.
+4. Doug aplica la migración a su base de datos de desarrollo local, de este modo sincroniza su base de datos para reflejar los cambios que hizo Tim.
 
-Yii supports database migration via the `yii migrate` command line tool. This tool supports:
+Yii mantiene la migración de base de datos con `yii migrate`, herramienta de linea de comandos. Esta herramienta proporciona:
 
-* Creating new migrations
-* Applying, reverting, and redoing migrations
-* Showing migration history and new migrations
+* Crear nuevas migraciones.
+* Aplicar, revertir y rehacer migraciones.
+* Mostrar un histórico de migraciones y migraciones nuevas (migraciones aún no aplicadas).
 
-Creating Migrations
--------------------
 
-To create a new migration, run the following command:
+Creando migraciones
+-----------------
+
+Para crear una nueva migración, ejecutar el siguiente comando:
 
 ```
 yii migrate/create <name>
 ```
 
-The required `name` parameter specifies a very brief description of the migration. For example, if the migration creates a new table named *news*, you'd use the command:
+El parámetro requerido `name` especifica una muy breve descripción de la migración. Por ejemplo, si la migración crea una nueva tabla llamada *news*, se utilizará el comando:
 
 ```
 yii migrate/create create_news_table
 ```
 
-As you'll shortly see, the `name` parameter
-is used as part of a PHP class name in the migration. Therefore, it should only contain letters,
-digits and/or underscore characters.
+Como se verá a continuación el parámetro `name` es utilizado como parte del nombre de una clase de PHP en la migración. Por lo tanto, solo debe contener letras, dígitos y/o carácteres de subrayado.
 
-The above command will create a new
-file named `m101129_185401_create_news_table.php`. This file will be created within the `@app/migrations` directory. Initially, the migration file will be generated with the following code:
+El comando anterior creará un nuevo archivo llamado `m101129_185401_create_news_table.php`. Este archivo será creado dentro del directorio `@app/migrations`.
+Inicialmente el archivo de la migración será creado con el siguiente código:
 
 ```php
 class m101129_185401_create_news_table extends \yii\db\Migration
@@ -54,23 +56,20 @@ class m101129_185401_create_news_table extends \yii\db\Migration
 }
 ```
 
-Notice that the class name is the same as the file name, and follows the pattern
-`m<timestamp>_<name>`, where:
+Fijarse que el nombre de la clase es el mismo que el nombre del archivo, y sigue el patrón `m<timestamp>_<name>`, donde:
 
-* `<timestamp>` refers to the UTC timestamp (in the
-format of `yymmdd_hhmmss`) when the migration is created,
-* `<name>` is taken from the command's `name` parameter.
+* `<timestamp>` se refiere a la marca de tiempo UTC (con el formato `yymmdd_hhmmss`) cuando la migración es creada.
+* `<name>` es tomado del parámetro `name` del comando.
 
-In the class, the `up()` method should contain the code implementing the actual database
-migration. In other words, the `up()` method executes code that actually changes the database. The `down()` method may contain code that reverts the changes made by `up()`.
+En la clase, el método `up()` debe contener el código que implementa la migración actual de la base de datos. En otras palabras, el método `up()` ejecuta el código que realmente cambia la base de datos.
+El método `down()` puede contener el código que revierta los cambios que realizados por `up()`.
 
-Sometimes, it is impossible for the `down()` to undo the database migration. For example, if the migration deletes
-table rows or an entire table, that data cannot be recovered in the `down()` method. In such
-cases, the migration is called irreversible, meaning the database cannot be rolled back to
-a previous state. When a migration is irreversible, as in the above generated code, the `down()`
-method returns `false` to indicate that the migration cannot be reverted.
+Algunas veces, es imposible para el método `down()` deshacer la migración de base de datos.
+Por ejemplo, si la migración borra filas de una tabla o la tabla entera, esos datos no pueden ser recuperados por el método `down()`.
+En estos casos, la migración es llamada irreversible, es decir, la base de datos no se puede revertir a un estado anterior.
+Cuando una migración es irreversible, como en el código generado anteriormente, el método `down()` devuelve `false` para indicar que la migración no puede ser revertida.
 
-As an example, let's show the migration about creating a news table.
+Como ejemplo, se muestra la migración sobre la creación de una nueva tabla.
 
 ```php
 
@@ -95,26 +94,21 @@ class m101129_185401_create_news_table extends \yii\db\Migration
 }
 ```
 
-The base class [\yii\db\Migration] exposes a database connection via `db`
-property. You can use it for manipulating data and schema of a database.
+La clase base [\yii\db\Migration] abre una conexión a la base de datos por la propiedad `db`. Puede ser utilizado para manipular los datos y el esquema de una base de datos.
 
-The column types used in this example are abstract types that will be replaced
-by Yii with the corresponding types depended on your database management system.
-You can use them to write database independent migrations.
-For example `pk` will be replaced by `int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY`
-for MySQL and `integer PRIMARY KEY AUTOINCREMENT NOT NULL` for sqlite.
-See documentation of [[yii\db\QueryBuilder::getColumnType()]] for more details and a list
-of available types. You may also use the constants defined in [[yii\db\Schema]] to
-define column types.
+Los tipos de columna utilizados en este ejemplo son tipos abstractos que serán reemplazados por Yii con los correspondientes tipos dependiendo del sistema de gestión de base de datos.
+Puede utilizarse para escribir migraciones independientes de la base de datos. 
+Por ejemplo, `pk` será reemplazado por `int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY` para MySQL y por `integer PRIMARY KEY AUTOINCREMENT NOT NULL` para sqlite.
+
+Ver la documentación de [[yii\db\QueryBuilder::getColumnType()]] para más detalles y una lista de los tipos disponibles.
+También pueden utilizarse las constantes definidas en [[yii\db\Schema]] para definir los tipos de columna.
 
 
-Transactional Migrations
-------------------------
+Migraciones con transacciones
+--------------------------
 
-While performing complex DB migrations, we usually want to make sure that each
-migration succeed or fail as a whole so that the database maintains the
-consistency and integrity. In order to achieve this goal, we can exploit
-DB transactions. We could use special methods `safeUp` and `safeDown` for these purposes.
+Cuando se realizan complejas migraciones de base de datos, normalmente se quiere asegurar que la migración completa se realizó con éxito o falló para mantener la consistencia e integridad de la base de datos.
+Para acometer esta meta, se pueden utilizar transacciones. Pueden utilizarse los métodos especiales `safeUp` y `safeDown` para este propósito.
 
 ```php
 
@@ -146,178 +140,161 @@ class m101129_185401_create_news_table extends \yii\db\Migration
 }
 ```
 
-When your code uses more then one query it is recommended to use `safeUp` and `safeDown`.
+Si el código realiza más de un cambio se recomienda utilizar los métodos `safeUp` y `safeDown`.
 
-> Note: Not all DBMS support transactions. And some DB queries cannot be put
-> into a transaction. In this case, you will have to implement `up()` and
-> `down()`, instead. And for MySQL, some SQL statements may cause
-> [implicit commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> Nota: No todos los DBMS soportan transacciones y algunas preguntas de base de datos no pueden estar en una transacción.
+> En este caso, se tendrán que implementar los métodos `up()` y `down()` en su lugar.
+> Para MySQL, algunas sentencias SQL pueden causar [commit implicito](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
-Applying Migrations
+Aplicando migraciones
 -------------------
 
-To apply all available new migrations (i.e., make the local database up-to-date),
-run the following command:
+Para aplicar todas las nuevas migraciones disponibles (p.ej., poner al día la base de datos local), ejecutar el siguiente comando:
 
 ```
 yii migrate
 ```
 
-The command will show the list of all new migrations. If you confirm to apply
-the migrations, it will run the `up()` method in every new migration class, one
-after another, in the order of the timestamp value in the class name.
+El comando mostrará la lista de todas las nuevas migraciones. Si se confirma aplicar las migraciones, ejecutará el método `up()` en cada nueva clase de migración,
+una detrás de otra, en el orden del valor de la marca de tiempo proporcionada en el nombre de la clase.
 
-After applying a migration, the migration tool will keep a record in a database
-table named `migration`. This allows the tool to identify which migrations
-have been applied and which are not. If the `migration` table does not exist,
-the tool will automatically create it in the database specified by the `db`
-application component.
+Después de aplicar una migración, la herramienta de migración mantendrá un registro en una tabla de la base de datos llamada `migration`.
+Esto permite a la herramienta identificar que migraciones han sido aplicadas y cuales no.
+Si la tabla `migration` no existe, la herramienta automáticamente la creará en la base de datos especificada por el componente de la aplicación `db`.
 
-Sometimes, we may only want to apply one or a few new migrations. We can use the
-following command:
+Algunas veces, puede quererse solo aplicar una o unas pocas nuevas migraciones. Puede utilikzarse el siguiente comando:
+
 
 ```
 yii migrate/up 3
 ```
 
-This command will apply the 3 new migrations. Changing the value 3 will allow
-us to change the number of migrations to be applied.
+Este comando aplicará tres migraciones nuevas. Cambiar el valor 3 permitirá cambiar el número de migraciones que van a ser aplicadas.
 
-We can also migrate the database to a specific version with the following command:
+También puede migrarse la base de datos a una versión específica con el siguiente comando:
+
 
 ```
 yii migrate/to 101129_185401
 ```
 
-That is, we use the timestamp part of a migration name to specify the version
-that we want to migrate the database to. If there are multiple migrations between
-the last applied migration and the specified migration, all these migrations
-will be applied. If the specified migration has been applied before, then all
-migrations applied after it will be reverted (to be described in the next section).
+Eso es, utilizar la parte del valor de la marca de tiempo del nombre de una migración para especificar la versión a la que se quiere migrar la base de datos.
+Si hubiese múltiples migraciones entre la última migración aplicada y la migración especificada, todas serán aplicadas.
+Si la migración especificada ha sido aplicada antes, entonces todas las migraciones aplicadas después serán revertidas (será descrito en la próxima sección).
 
 
-Reverting Migrations
+Revertiendo migraciones
 --------------------
 
-To revert the last one or several applied migrations, we can use the following
-command:
+Para revertir la última o varias migraciones ya aplicadas, puede utilizarse el siguiente comando:
+
 
 ```
 yii migrate/down [step]
 ```
 
-where the optional `step` parameter specifies how many migrations to be reverted
-back. It defaults to 1, meaning reverting back the last applied migration.
+donde el parámetro opcional `step` especifica cuantas migraciones serán revertidas. Por defecto su valor es 1, indicando que revertirá la última migración aplicada.
 
-As we described before, not all migrations can be reverted. Trying to revert
-such migrations will throw an exception and stop the whole reverting process.
+Como se describió anteriormente, no todas las migraciones pueden ser revertidas. Si una migración no puede ser revertida lanzará una excepción y parará el proceso completo de revertido.
 
 
-Redoing Migrations
-------------------
+Rehaciendo migraciones
+--------------------
 
-Redoing migrations means first reverting and then applying the specified migrations.
-This can be done with the following command:
+Rehacer migraciones quiere decir primero revertir y entonces aplicar las migraciones especificadas.
+Esto puede ser realizado con el siguiente comando:
+
 
 ```
 yii migrate/redo [step]
 ```
 
-where the optional `step` parameter specifies how many migrations to be redone.
-It defaults to 1, meaning redoing the last migration.
+donde el parámetro opcional `step` especifica cuantas migraciones se ván a rehacer. Por defecto su valor es 1, indicando que se va a rehacer la última migración aplicada.
 
 
-Showing Migration Information
------------------------------
+Mostrando la información de las migraciones
+--------------------------------------
 
-Besides applying and reverting migrations, the migration tool can also display
-the migration history and the new migrations to be applied.
+Mas allá de aplicar y revertir migraciones, la herramienta de migraciones también puede mostrar el historial de las migraciones y las nuevas migraciones disponibles para ser aplicadas.
+
 
 ```
 yii migrate/history [limit]
 yii migrate/new [limit]
 ```
 
-where the optional parameter `limit` specifies the number of migrations to be
-displayed. If `limit` is not specified, all available migrations will be displayed.
+donde el parámetro opcional `limit` especifica el número de migraciones que se van a mostrar. Si `limit` no es especificado, serán mostradas todas las migraciones disponibles.
 
-The first command shows the migrations that have been applied, while the second
-command shows the migrations that have not been applied.
+El primer comando muestra todas las migraciones que han sido aplicadas, mientras que el segundo comado muestra las migraciones que no han sido aplicadas.
 
 
-Modifying Migration History
----------------------------
+Modificando el historial de migraciones
+----------------------------------
 
-Sometimes, we may want to modify the migration history to a specific migration
-version without actually applying or reverting the relevant migrations. This
-often happens when developing a new migration. We can use the following command
-to achieve this goal.
+A veces, puede querer modificarse el historial de migración a una versión de migración específica sin llegar a aplicar o revertir las migraciones pertinentes.
+Esto sucede a menudo durante el desarrollo de una nueva migración. Puede utilizarse el siguiente comando para lograr este objetivo.
+
 
 ```
 yii migrate/mark 101129_185401
 ```
 
-This command is very similar to `yii migrate/to` command, except that it only
-modifies the migration history table to the specified version without applying
-or reverting the migrations.
+Este comando es muy similar al comando `yii migrate/to`, excepto que solo modifica el historial de la tabla de migración a la versión especificada sin aplicar o revertir las migraciones.
 
 
-Customizing Migration Command
+Personalizando el comando migrate
 -----------------------------
 
-There are several ways to customize the migration command.
+Hay algunos caminos para personalizar el comado `migrate`.
 
-### Use Command Line Options
 
-The migration command comes with four options that can be specified in command
-line:
+### Utilizar las opciones de la linea de comandos
 
-* `interactive`: boolean, specifies whether to perform migrations in an
-  interactive mode. Defaults to true, meaning the user will be prompted when
-  performing a specific migration. You may set this to false should the
-  migrations be done in a background process.
+El comado de migración viene con cuatro opciones que pueden ser especificadas por la linea de comandos: 
 
-* `migrationPath`: string, specifies the directory storing all migration class
-  files. This must be specified in terms of a path alias, and the corresponding
-  directory must exist. If not specified, it will use the `migrations`
-  sub-directory under the application base path.
 
-* `migrationTable`: string, specifies the name of the database table for storing
-  migration history information. It defaults to `migration`. The table
-  structure is `version varchar(255) primary key, apply_time integer`.
+* `interactive`: boolean, especifica si efectuar las migraciones en un modo interactivo.  
+  Por defecto su valor es `true`, es decir, al usuario se le pedirá confirmación cuando
+  realice una migración específica. Se puede configurar a `false` para que las migraciones
+  puedan ejecutarse en un proceso en segundo plano.
 
-* `connectionID`: string, specifies the ID of the database application component.
-  Defaults to 'db'.
+* `migrationPath`: string, especifies el directorio de almacenamiento de todas las clases de migración.
+  Debe ser especificado en terminos de alias de ruta, y el directorio correspondiente debe existir.
+  Si no es especificado, se utilizará el subdirectorio `migrations` situado en la ruta base de la aplicación.
 
-* `templateFile`: string, specifies the path of the file to be served as the code
-  template for generating the migration classes. This must be specified in terms
-  of a path alias (e.g. `application.migrations.template`). If not set, an
-  internal template will be used. Inside the template, the token `{ClassName}`
-  will be replaced with the actual migration class name.
+* `migrationTable`: string, especifica el nombre de la tabla de la base de datos para almacenar
+  la información del historial de migraciones. Por defecto su valor es `migration`. La estructura
+  de la tabla es `version varchar(255) primary key, apply_time integer`.
 
-To specify these options, execute the migrate command using the following format
+* `connectionID`: string, especifica el ID del componente de la base de datos de la aplicación.
+  Por defecto su valor es `db`.
+
+* `templateFile`: string, especifica la ruta del archivo para ser servido como el código
+   plantilla para la generación de las clases de migración. Esto debe ser especificado en terminos
+   de un alias de ruta (p.ej. `application.migrations.template`). Si no esta configurado, 
+   se utilizará una plantilla interna. Dentro de la plantilla, el símbolo `{ClassName}`
+   será reemplazado con el nombre de la clase de la migración actual.
+
+
+Para especificar estas opciones, ejecutar el comando `migrate` utilizando el siguiente formato:
 
 ```
 yii migrate/up --option1=value1 --option2=value2 ...
 ```
 
-For example, if we want to migrate for a `forum` module whose migration files
-are located within the module's `migrations` directory, we can use the following
-command:
+Por ejemplo, si se quiere migrar un módulo `forum` cuyos archivos de migración están en el directorio `migrations` dentro del módulo, se puede utilizar el siguiente comando:
 
 ```
 yii migrate/up --migrationPath=@app/modules/forum/migrations
 ```
 
 
-### Configure Command Globally
+### Configuración global del comando
 
-While command line options allow us to configure the migration command
-on-the-fly, sometimes we may want to configure the command once for all.
-For example, we may want to use a different table to store the migration history,
-or we may want to use a customized migration template. We can do so by modifying
-the console application's configuration file like the following,
+Mientras las opciones de la linea de comandos permite configurar el comado de migración sobre la marcha, algunas veces se puede querer configurar el comando de forma global.
+Por ejemplo, se puede querer utilizar una tabla diferente para almacenar el historial de las migraciones, o se puede querer utilizar una plantilla de migración personalizada.
+Todo esto puede realizarse modificando la configuración del archivo del comando de consola como se muestra a continuación:
 
 ```php
 'controllerMap' => [
@@ -328,6 +305,5 @@ the console application's configuration file like the following,
 ]
 ```
 
-Now if we run the `migrate` command, the above configurations will take effect
-without requiring us to enter the command line options every time. Other command options
-can be also configured this way.
+Ahora al ejecutarse el comando `migrate`, la configuración anterior tomará efecto sin requerir introducir las opciones desde la linea de comandos.
+Otras opciones del comando pueden ser también configuradas de esta manera.
