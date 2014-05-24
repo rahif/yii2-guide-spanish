@@ -144,7 +144,7 @@ Utilizandolo en las plantillas se pueden realizar muchas cosas útiles incluyend
 registro de scripts y acceder al contexto.
 
 
-### Conmfigurar el título de la página
+### Configurar el título de la página
 
 Un lugar común para configurar el título de la página son las plantillas de la vista. Desde que se puede acceder al objeto vista
 con `$this`, configurar un título se vuelve tan fácil como:
@@ -181,7 +181,7 @@ la antigua y sólo se representará una etiqueta:
 <meta name="description" content="This website is about funny raccoons.">
 ```
 
-### Registering link tags
+### Registrando la etiqueta link
 
 La etiqueta `<link>` es útil en muchos casos como en la personalización del favicon, apuntando a un RSS o delegando OpenID
 a otro servidor. El objeto vista en Yii tiene un método para trabajar con estos casos:
@@ -412,7 +412,7 @@ echo $this->context->getRoute();
 
 Para aprender sobre cachear fragmentos de la vista, por fevor mirar en la sección de la guía [cach](caching.md).
 
-Personalñizando el componente Vista
+Personalizando el componente Vista
 -------------------------------
 
 Desde que la vista es tambien un componente de la aplicación llamado `view` puede ser reemplazado con un componente que
