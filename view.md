@@ -1,19 +1,20 @@
-View
-====
+Vista
+=====
 
-The view component is an important part of MVC. The view acts as the interface to the application, making it responsible
-for presenting data to end users, displaying forms, and so forth.
+El componente vista es una parte importante de MVC. La vista actúa como un interfaz a la aplicación, haciendolá responsable
+de la presentación de datos, muestra de formularios, y mucho más al usuario final.
 
 
-Basics
+Básico
 ------
 
-By default, Yii uses PHP in view templates to generate content and elements. A web application view typically contains
-some combination of HTML, along with PHP `echo`, `foreach`, `if`, and other basic constructs.
-Using complex PHP code in views is considered to be bad practice. When complex logic and functionality is needed,
-such code should either be moved to a controller or a widget.
+Por defecto, Yii utiliza PHP en las plantillas de vistas para generar el contenido y los elementos. 
+Una vista de una aplicación web normalmente contiene una combinación de HTML, junto con estructuras básicas de PHP como
+`echo`, `foreach`, `if`, ...
+El uso de código PHP complejo en las vistas es considerado como una mala práctica. 
+Cuando se necesita lógica y funcionalidad compleja, dicho código debe ser trasladado a un controlador o a un widget.
 
-The view is typically called from controller action using the [[yii\base\Controller::render()|render()]] method:
+La vista es normalmente llamada desde una acción de un controlador utilizando el método [[yii\base\Controller::render()|render()]]:
 
 ```php
 public function actionIndex()
@@ -22,81 +23,85 @@ public function actionIndex()
 }
 ```
 
-The first argument to [[yii\base\Controller::render()|render()]] is the name of the view to display.
-In the context of the controller, Yii will search for its views in `views/site/` where `site`
-is the controller ID. For details on how the view name is resolved, refer to the [[yii\base\Controller::render()]] method.
+El primer argumento de [[yii\base\Controller::render()|render()]] es el nombre de la vista que se va a mostrar.
+En el contexto del controlador, Yii buscará la vista en `views/site/` donde `site` es el ID del controlador.
+Para más detalles sobre como es resuelto el nombre de la vista, ver el método [[yii\base\Controller::render()]].
 
-The second argument to [[yii\base\Controller::render()|render()]] is a data array of key-value pairs.
-Through this array, data can be passed to the view, making the value available in the view as a variable
-named the same as the corresponding key.
+El segundo argumento de [[yii\base\Controller::render()|render()]] es un array de datos de parejas clave-valor.
+A través de este array, los datos pueden ser pasados a la vista, haciendo que estos datos esten disponibles en la vista 
+como una variable cuyo nombre es la clave asignada en el array.
 
-The view for the action above would be `views/site/index.php` and can be something like:
+La vista para la acción del ejemplo anterior estaría en `views/site/index.php` y puede ser algo así como:
 
 ```php
 <p>Hello, <?= $username ?>!</p>
 ```
 
-Any data type can be passed to the view, including arrays or objects.
+Cualquier tipo de datos puede ser pasado a la vista, incluyendo arrays de objetos.
 
-Besides the above [[yii\web\Controller::render()|render()]] method, the [[yii\web\Controller]] class also provides
-several other rendering methods. Below is a summary of these methods:
+Más allá del método [[yii\web\Controller::render()|render()]], la clase [[yii\web\Controller]] también proporciona
+otros métodos de renderización. Debajo se muestra un sumario de estos métodos:
 
-* [[yii\web\Controller::render()|render()]]: renders a view and applies the layout to the rendering result.
-  This is most commonly used to render a complete page.
-* [[yii\web\Controller::renderPartial()|renderPartial()]]: renders a view without applying any layout.
-  This is often used to render a fragment of a page.
-* [[yii\web\Controller::renderAjax()|renderAjax()]]: renders a view without applying any layout, and injects all
-  registered JS/CSS scripts and files. It is most commonly used to render an HTML output to respond to an AJAX request.
-* [[yii\web\Controller::renderFile()|renderFile()]]: renders a view file. This is similar to
-  [[yii\web\Controller::renderPartial()|renderPartial()]] except that it takes the file path
-  of the view instead of the view name.
+* [[yii\web\Controller::render()|render()]]: renderiza una vista y aplica el layout al resultado renderizado.
+  Este es el método comunmente más utilizado para renderizar una página completa.
+* [[yii\web\Controller::renderPartial()|renderPartial()]]: renderizar una vista sin aplicar ningún layout
+  Esto es utilizado a menudo para renderizar un fragmento de una página.
+* [[yii\web\Controller::renderAjax()|renderAjax()]]: renderizar una vista sin aplicar ningún layout, incluyendo
+  todos los archivos y scripts registrados de JS/CSS. Es utilizado comunmente para renderizar un flujo de salida HTML
+  como respuesta a una petición AJAX.
+* [[yii\web\Controller::renderFile()|renderFile()]]: renderizar un archivo de vista. Este método es similar a
+  [[yii\web\Controller::renderPartial()|renderPartial()]] excepto que toma la ruta del archivo de la vista 
+  en lugar del nombre de la vista.
 
 
 Widgets
 -------
 
-Widgets are self-contained building blocks for your views, a way to combine complex logic, display, and functionality into a single component. A widget:
+bloques de construcción independientes
 
-* May contain advanced PHP programming
-* Is typically configurable
-* Is often provided data to be displayed
-* Returns HTML to be shown within the context of the view
+Los widgets son bloques de código independientes para las vistas, un camino para combinar lógica compleja, funcionalidad y presentación, todo ello dentro 
+de un solo componente. Un widget:
 
-There are a good number of widgets bundled with Yii, such as [active form](form.md),
-breadcrumbs, menu, and [wrappers around bootstrap component framework](bootstrap-widgets.md). Additionally there are
-extensions that provide more widgets, such as the official widget for [jQueryUI](http://www.jqueryui.com) components.
+* Puede contener programación avanzada de PHP.
+* Normalmente es configurable.
+* A menudo se le proporcionan datos para ser mostrados.
+* Devuelve HTML para ser mostrado dentro del contexto de la vista.
 
-In order to use a widget, your view file would do the following:
+Hay un buen número de widgets equipados con Yii, como son [active form](form.md), breadcrumbs, menu, y [wrappers around bootstrap component framework](bootstrap-widgets.md).
+Además, hay extensiones que proporcionan más widgets, como el widget oficial de componentes [jQueryUI](http://www.jqueryui.com).
+
+
+Para utilizar un widget, el archivo de vista haría lo siguiente:
 
 ```php
-// Note that you have to "echo" the result to display it
+// Observa que hay que hacer "echo" del resultado para mostrarlo
 echo \yii\widgets\Menu::widget(['items' => $items]);
 
-// Passing an array to initialize the object properties
+// Pasar un array para inicializar las propiedades del objeto
 $form = \yii\widgets\ActiveForm::begin([
     'options' => ['class' => 'form-horizontal'],
     'fieldConfig' => ['inputOptions' => ['class' => 'input-xlarge']],
 ]);
-... form inputs here ...
+... campos del formulario aquí ...
 \yii\widgets\ActiveForm::end();
 ```
 
-In the first example in the code above, the [[yii\base\Widget::widget()|widget()]] method is used to invoke a widget
-that just outputs content. In the second example, [[yii\base\Widget::begin()|begin()]] and [[yii\base\Widget::end()|end()]]
-are used for a
-widget that wraps content between method calls with its own output. In case of the form this output is the `<form>` tag
-with some properties set.
+En el primer ejemplo del código anterior, el método [[yii\base\Widget::widget()|widget()]] es utilizado para invocar
+un widget que solo emite un contenido.
+En el segundo ejemplo, [[yii\base\Widget::begin()|begin()]] y [[yii\base\Widget::end()|end()]] es utilizado por un
+widget que envuelve el contenido entre llamadas a los métodos con su propia salida.
+En el caso del formulario esta salida es la etiqueta `<form>` con algunas propiedades configuradas.
 
 
-Security
+Seguridad
 --------
 
-One of the main security principles is to always escape output. If violated it leads to script execution and,
-most probably, to cross-site scripting known as XSS leading to leaking of admin passwords, making a user to automatically
-perform actions etc.
+Uno de los principales principios de seguridad es escapar siempre la salida. Si se viola ello conduce a la ejecución de un script y,
+muy probablemente, a un "cross-site scripting" conocido como XSS el cual puede llevar a  una filtración de contraseñas de administrador,
+haciendo que un usuario realice acciones automáticamente.
 
-Yii provides a good tool set in order to help you escape your output. The very basic thing to escape is a text without any
-markup. You can deal with it like the following:
+Yii proporciona una buena herramienta configurada para ayudar a escapar la salida. Lo más básico para escapar un texto sin marcado.
+Puede tratar, en ese caso, de la siguiente manera:
 
 ```php
 <?php
@@ -108,8 +113,9 @@ use yii\helpers\Html;
 </div>
 ```
 
-When you want to render HTML it becomes complex so we're delegating the task to excellent
-[HTMLPurifier](http://htmlpurifier.org/) library which is wrapped in Yii as a helper [[yii\helpers\HtmlPurifier]]:
+Cuando se quiere renderizar HTML la tarea se vuelve compleja por lo que se puede delegar esta tarea a la excelente 
+librería [HTMLPurifier](http://htmlpurifier.org/) la cual es encapsulada en Yii como un helper [[yii\helpers\HtmlPurifier]]:
+
 
 ```php
 <?php
@@ -121,62 +127,64 @@ use yii\helpers\HtmlPurifier;
 </div>
 ```
 
-Note that besides HTMLPurifier does excellent job making output safe it's not very fast so consider
-[caching result](caching.md).
+HTMLPurifier realiza un trabajo excelente haciendo la salida segura, pero no es muy rápido por lo que se puede considerar
+[cachear el resultado](caching.md).
 
-Alternative template languages
-------------------------------
+Lenguajes de plantilla alternativos
+-------------------------------
 
-There are official extensions for [Smarty](http://www.smarty.net/) and [Twig](http://twig.sensiolabs.org/). In order
-to learn more refer to [Using template engines](template.md) section of the guide.
+Hay extensiones oficiales para [Smarty](http://www.smarty.net/) y [Twig](http://twig.sensiolabs.org/). Con el fin de
+profundizar más examinar la sección de la guía [Utilizando motores de plantillas](template.md)
 
-Using View object in templates
-------------------------------
+Utilizando el objeto vista en las plantillas
+---------------------------------------
 
-An instance of [[yii\web\View]] component is available in view templates as `$this` variable. Using it in templates you
-can do many useful things including setting page title and meta, registering scripts and accessing the context.
+Una instancia del componente [[yii\web\View]] esta disponible en las plantillas de la vista como la variable `$this`.
+Utilizandolo en las plantillas se pueden realizar muchas cosas útiles incluyendo configuración del título y metas de la página,
+registro de scripts y acceder al contexto.
 
-### Setting page title
 
-A common place to set page title are view templates. Since we can access view object with `$this`, setting a title
-becomes as easy as:
+### Configurar el título de la página
+
+Un lugar común para configurar el título de la página son las plantillas de la vista. Desde que se puede acceder al objeto vista
+con `$this`, configurar un título se vuelve tan fácil como:
 
 ```php
 $this->title = 'My page title';
 ```
 
-### Adding meta tags
+### Añadiendo etiquetas meta
 
-Adding meta tags such as encoding, description, keywords is easy with view object as well:
+Añadir etiquetas meta como `encoding`, `description`, `keywords` también es fácil con el objeto vista:
 
 ```php
 $this->registerMetaTag(['encoding' => 'utf-8']);
 ```
 
-The first argument is an map of `<meta>` tag option names and values. The code above will produce:
+El primer argumento es un array de parejas clave valor de las opciones de la etiqueta `<meta>`. El código anterior produciría la salida:
 
 ```html
 <meta encoding="utf-8">
 ```
 
-Sometimes there's a need to have only a single tag of a type. In this case you need to specify the second argument:
+Algunas veces hay necesidad de tener solo una etiqueta de un tipo. En este caso es neceario especificar el segundo argumento:
 
 ```html
 $this->registerMetaTag(['name' => 'description', 'content' => 'This is my cool website made with Yii!'], 'meta-description');
 $this->registerMetaTag(['name' => 'description', 'content' => 'This website is about funny raccoons.'], 'meta-description');
 ```
 
-If there are multiple calls with the same value of the second argument (`meta-description` in this case), the latter will
-override the former and only a single tag will be rendered:
+Si hay multiples llamadas con el mismo valor del segundo argumento (`meta-description` en este caso), esta última reemplazará
+la antigua y sólo se representará una etiqueta:
 
 ```html
 <meta name="description" content="This website is about funny raccoons.">
 ```
 
-### Registering link tags
+### Registrando la etiqueta link
 
-`<link>` tag is useful in many cases such as customizing favicon, pointing to RSS feed or delegating OpenID to another
-server. Yii view object has a method to work with these:
+La etiqueta `<link>` es útil en muchos casos como en la personalización del favicon, apuntando a un RSS o delegando OpenID
+a otro servidor. El objeto vista en Yii tiene un método para trabajar con estos casos:
 
 ```php
 $this->registerLinkTag([
@@ -187,24 +195,26 @@ $this->registerLinkTag([
 ]);
 ```
 
-The code above will result in
+El código anterior mostrará el siguiente resultado:
 
 ```html
 <link title="Lives News for Yii Framework" rel="alternate" type="application/rss+xml" href="http://www.yiiframework.com/rss.xml/" />
 ```
 
-Same as with meta tags you can specify additional argument to make sure there's only one link of a type registered.
+De la misma manera que con las etiquetas meta se pueden especificar un argumento adicional para asegurar que solo hay un enlace de un
+tipo registrado.
 
-### Registering CSS
+### Registrando CSS
 
-You can register CSS using [[yii\web\View::registerCss()|registerCss()]] or [[yii\web\View::registerCssFile()|registerCssFile()]].
-The former registers a block of CSS code while the latter registers an external CSS file. For example,
+Se puede registrar CSS utilizando [[yii\web\View::registerCss()|registerCss()]] o [[yii\web\View::registerCssFile()|registerCssFile()]].
+El primero registra un bloque de código CSS mientras que el segundo registra un archivo CSS externo. Por ejemplo,
+
 
 ```php
 $this->registerCss("body { background: #f00; }");
 ```
 
-The code above will result in adding the following to the head section of the page:
+El código anterior mostrará el siguiente resultado en la sección head de la página:
 
 ```html
 <style>
@@ -212,54 +222,55 @@ body { background: #f00; }
 </style>
 ```
 
-If you want to specify additional properties of the style tag, pass an array of name-values to the third argument.
-If you need to make sure there's only a single style tag use fourth argument as was mentioned in meta tags description.
+Si se quieren especificar propiedades adicionales de la etiqueta style, pasar un array de parejas clave-valor al tercer argumento.
+Si se necesita asegurar que solo hay una etiqueta style utilizar el cuarto argumento como se mencionó en la etiqueta meta.
 
 ```php
 $this->registerCssFile("http://example.com/css/themes/black-and-white.css", [BootstrapAsset::className()], ['media' => 'print'], 'css-print-theme');
 ```
 
-The code above will add a link to CSS file to the head section of the page.
-
-* The first argument specifies the CSS file to be registered.
-* The second argument specifies that this CSS file depends on [[yii\bootstrap\BootstrapAsset|BootstrapAsset]], meaning it will be added
-  AFTER the CSS files in [[yii\bootstrap\BootstrapAsset|BootstrapAsset]]. Without this dependency specification, the relative order
-  between this CSS file and the [[yii\bootstrap\BootstrapAsset|BootstrapAsset]] CSS files would be undefined.
-* The third argument specifies the attributes for the resulting `<link>` tag.
-* The last argument specifies an ID identifying this CSS file. If it is not provided, the URL of the CSS file will be
-  used instead.
+El código anterior añadirá un enlace a un archivo CSS en la sección head de la página.
 
 
-It is highly recommended that you use [asset bundles](assets.md) to register external CSS files rather than
-using [[yii\web\View::registerCssFile()|registerCssFile()]]. Using asset bundles allows you to combine and compress
-multiple CSS files, which is desirable for high traffic websites.
+* El primer argumento especifica el archivo CSS a ser registrado.
+* El segundo argumento especifica que el archivo CSS depende de [[yii\bootstrap\BootstrapAsset|BootstrapAsset]], lo que significa que se agregará
+  después de los archivos CSS en [[yii\bootstrap\BootstrapAsset|BootstrapAsset]]. Sin esta especificación de dependencia, el orden relativo 
+  entre este archivo y los archivos CSS [[yii\bootstrap\BootstrapAsset|BootstrapAsset]] no estarían definidas.
+* El tercer argumento especifica los atributos para la etiqueta resultante `<link>`.
+* El último argumento especifica un ID de identificación para este archivo CSS. Si no es proporcionado, la URL del archivo CSS será utilizada en su lugar.
 
 
-### Registering scripts
+Es fuertemente recomendado el uso [asset bundles](assets.md) para registrar archivos CSS externos antes que utilizar 
+[[yii\web\View::registerCssFile()|registerCssFile()]]. El uso de asset bundles (son archivos CSS/JS/images...) permite combinar y comprimir
+múltiples archivos CSS, lo cual es conveniente para sitios web de alto tráfico.
 
-With the [[yii\web\View]] object you can register scripts. There are two dedicated methods for it:
-[[yii\web\View::registerJs()|registerJs()]] for inline scripts and
-[[yii\web\View::registerJsFile()|registerJsFile()]] for external scripts.
-Inline scripts are useful for configuration and dynamically generated code.
-The method for adding these can be used as follows:
+
+### Registrando scripts
+
+Con el objeto [[yii\web\View]] se pueden registrar scripts. Hay dos métodos dedicados para ello:
+[[yii\web\View::registerJs()|registerJs()]] para scripts en linea y
+[[yii\web\View::registerJsFile()|registerJsFile()]] para scripts externos.
+Los scripts en linea son útiles para configuración y código generado dinámicamente.
+El método para añadir un script en linea puede ser utilizado como se muestra a continuación:
+
 
 ```php
 $this->registerJs("var options = ".json_encode($options).";", View::POS_END, 'my-options');
 ```
 
-The first argument is the actual JS code we want to insert into the page. The second argument
-determines where script should be inserted into the page. Possible values are:
+El primer argumento es el código actual de JS que se quiere incluir en la página. El segundo argumento
+determina la posición en la que se incluirá el script dentro de la página. Posibles valores son:
 
-- [[yii\web\View::POS_HEAD|View::POS_HEAD]] for head section.
-- [[yii\web\View::POS_BEGIN|View::POS_BEGIN]] for right after opening `<body>`.
-- [[yii\web\View::POS_END|View::POS_END]] for right before closing `</body>`.
-- [[yii\web\View::POS_READY|View::POS_READY]] for executing code on document `ready` event. This will register [[yii\web\JqueryAsset|jQuery]] automatically.
-- [[yii\web\View::POS_LOAD|View::POS_LOAD]] for executing code on document `load` event. This will register [[yii\web\JqueryAsset|jQuery]] automatically.
+- [[yii\web\View::POS_HEAD|View::POS_HEAD]] para la sección head.
+- [[yii\web\View::POS_BEGIN|View::POS_BEGIN]] inmediatamente después de la etiqueta `<body>`.
+- [[yii\web\View::POS_END|View::POS_END]] inmediatamente antes de cerrar la etiqueta `</body>`.
+- [[yii\web\View::POS_READY|View::POS_READY]] para la ejecución de código en el evento `ready` del documento. Esto registrará [[yii\web\JqueryAsset|jQuery]] automáticamente.
+- [[yii\web\View::POS_LOAD|View::POS_LOAD]] para la ejecución de código en el evento `load` del documento. Esto registrará [[yii\web\JqueryAsset|jQuery]] automáticamente.
 
-The last argument is a unique script ID that is used to identify code block and replace existing one with the same ID
-instead of adding a new one. If you don't provide it, the JS code itself will be used as the ID.
+El último argumento es un ID único del script que es utilizado para identificar el bloque de código y reemplazar uno existente 
+con el mismo ID en lugar de añadir uno nuevo. Si no se proporciona, el mismo código JS será utilizado como el ID.
 
-An external script can be added like the following:
+Un script externo puede ser añadido como se muestra a continuación:
 
 ```php
 $this->registerJsFile('http://example.com/js/main.js', [JqueryAsset::className()]);
@@ -275,11 +286,11 @@ Like for [[yii\web\View::registerCssFile()|registerCssFile()]], it is also highl
 [asset bundles](assets.md) to register external JS files rather than using [[yii\web\View::registerJsFile()|registerJsFile()]].
 
 
-### Registering asset bundles
+### Registrando asset bundles
 
-As was mentioned earlier it's preferred to use asset bundles instead of using CSS and JavaScript directly. You can get
-details on how to define asset bundles in [asset manager](assets.md) section of the guide. As for using already defined
-asset bundle, it's very straightforward:
+Como fue mencionado anteriormente es preferido utilizar asset bundles en lugar de utilizar CSS y JavaScript directamente.
+Para obtener detalles de como definir asset bundles ver la sección [administración de asset](assets.md) de la guía.
+En cuanto al uso ya definido de asset bundles, es muy sencillo:
 
 ```php
 \frontend\assets\AppAsset::register($this);
@@ -287,10 +298,11 @@ asset bundle, it's very straightforward:
 
 ### Layout
 
-A layout is a very convenient way to represent the part of the page that is common for all or at least for most pages
-generated by your application. Typically it includes `<head>` section, footer, main menu and alike elements.
-You can find a fine example of the layout in a [basic application template](apps-basic.md). Here we'll review the very
-basic one without any widgets or extra markup.
+Un layout es una forma muy conveniente de representar la parte de la página que es común para todo o al menos para la
+mayoría de las páginas generadas por la aplicación. Normalmente incluye la sección `<head>`, el pie de página, 
+un menú principal y elementos similares.
+Se puede encontrar un buen ejemplo de layout en la [plantilla básica de una aplicación](apps-basic.md).
+Aquí se muestra un layout muy básico sin widgets ni elementos extra.
 
 ```php
 <?php
@@ -316,26 +328,27 @@ use yii\helpers\Html;
 <?php $this->endPage() ?>
 ```
 
-In the markup above there's some code. First of all, `$content` is a variable that will contain result of views rendered
-with controller's `$this->render()` method.
+En el ejemplo anterior hay una parte de código. Lo primero de todo, `$content` es una variable que contiene el resultado
+de las vistas renderizadas con el método `$this->render()` del controlador.
 
-We are importing [[yii\helpers\Html|Html]] helper via standard PHP `use` statement. This helper is typically used for almost all views
-where one need to escape outputted data.
+Se importa un helper [[yii\helpers\Html|Html]] (una clase de ayuda) mediante la sentencia estándar de PHP `use`. Este helper
+es normalmente utilizado en la mayoría de las vistas donde es necesario escapar los datos de salida.
 
-Several special methods such as [[yii\web\View::beginPage()|beginPage()]]/[[yii\web\View::endPage()|endPage()]],
+Algunos métodos especiales como  [[yii\web\View::beginPage()|beginPage()]]/[[yii\web\View::endPage()|endPage()]],
 [[yii\web\View::head()|head()]], [[yii\web\View::beginBody()|beginBody()]]/[[yii\web\View::endBody()|endBody()]]
-are triggering page rendering events that are used for registering scripts, links and process page in many other ways.
-Always include these in your layout in order for the rendering to work correctly.
+desencadenan eventos de renderizado de la página que son utilizados para registro de scripts, enlaces y procesar la página de muchas 
+otras maneras.
+Siempre incluir estos métodos en el layout para que el trabajo de renderizado sea procesado correctamente.
 
-### Partials
+### Vistas parciales
 
-Often you need to reuse some HTML markup in many views and often it's too simple to create a full-featured widget for it.
-In this case you may use partials.
+A menudo se necesita reutilizar algún código HTML en muchas vistas y a menudo es también simple crear un widget
+con todas las funciones para ello. En este caso pueden utilizarse vistas parciales.
 
-Partial is a view as well. It resides in one of directories under `views` and by convention is often started with `_`.
-For example, we need to render a list of user profiles and, at the same time, display individual profile elsewhere.
+Una vista parcial es una vista también. Ella reside en uno de los directorios bajo `views` y por convención su nombre comienza por `_`.
+Por ejemplo, se necesita renderizar una lista de perfiles de usuario y, al mismo tiempo, mostrar el perfil individual en otros sitios.
 
-First we need to define a partial for user profile in `_profile.php`:
+Primero se necesita definir una vista parcial para el perfil del usuario en `_profile.php`:
 
 ```php
 <?php
@@ -348,7 +361,7 @@ use yii\helpers\Html;
 </div>
 ```
 
-Then we're using it in `index.php` view where we display a list of users:
+Para usarlo en la vista `index.php` donde se muestra una lista de usuarios:
 
 ```php
 <div class="user-index">
@@ -363,7 +376,7 @@ Then we're using it in `index.php` view where we display a list of users:
 </div>
 ```
 
-Same way we can reuse it in another view displaying a single user profile:
+De la misma forma puede reutilizarse en otra vista mostrando el perfil de un usario:
 
 ```php
 echo $this->render('_profile', [
@@ -372,39 +385,39 @@ echo $this->render('_profile', [
 ]);
 ```
 
+Al llamar al método `render()` para renderizar una vista parcial dentro de una vista, pueden utilizarse diferentes formatos
+para referirse a la vista parcial.
+El formato utilizado normalmente es el también llamado nombre de vista relativa el cual es el que se muestra en el ejemplo anterior.
+El archivo de la vista parcial es relativo al directorio que contiene la vista actual. Si la vista parcial esta localizada bajo un
+subdirectorio, debe incluirse el nombre del subdirectorio en el nombre de la vista parcial, p.ej., `public/_profile`. 
 
-When you call `render()` to render a partial in a current view, you may use different formats to refer to the partial.
-The most commonly used format is the so-called relative view name which is as shown in the above example.
-The partial view file is relative to the directory containing the current view. If the partial is located under
-a subdirectory, you should include the subdirectory name in the view name, e.g., `public/_profile`.
-
-You may use path alias to specify a view, too. For example, `@app/views/common/_profile`.
-
-And you may also use the so-called absolute view names, e.g., `/user/_profile`, `//user/_profile`.
-An absolute view name starts with a single slashes or double slashes. If it starts with a single slash,
-the view file will be looked for under the view path of the currently active module. Otherwise, it will
-will be looked for under the application view path.
+También pueden utilizarse alias de ruta para especificar una vista. por ejemplo, `@app/views/common/_profile`.
+Y también pueden utilizarse nombres de vistas absolutos, P.ej., `/user/_profile`, `//user/_profile`.
+Un nombre de vista absoluto comienza con una barra simple o dos barras simples. Si comienza con una barra simple,
+el archivo de la vista será buscado bajo la ruta de las vistas del módulo activo actual. De otra manera, será buscado
+bajo la ruta de las vistas de la aplicación.
 
 
-### Accessing context
+### Accediendo al contexto
 
-Views are generally used either by controller or by widget. In both cases the object that called view rendering is
-available in the view as `$this->context`. For example if we need to print out the current internal request route in a
-view rendered by controller we can use the following:
+Las vistas son generalmente utilizadas por un controlador o por un widget. En ambos casos el objeto que llamó a la
+renderización de la vista esta disponible en la vista como `$this->context`. Por ejemplo si se necesita imprimir la
+ruta de petición interna actual en una vista renderizada por un controlador puede utilizarse lo siguiente:
 
 ```php
 echo $this->context->getRoute();
 ```
 
-### Caching blocks
+### Cachear bloques
 
-To learn about caching of view fragments please refer to [caching](caching.md) section of the guide.
+Para aprender sobre cachear fragmentos de la vista, por fevor mirar en la sección de la guía [cach](caching.md).
 
-Customizing View component
---------------------------
+Personalizando el componente Vista
+-------------------------------
 
-Since view is also an application component named `view` you can replace it with your own component that extends
-from [[yii\base\View]] or [[yii\web\View]]. It can be done via application configuration file such as `config/web.php`:
+Desde que la vista es tambien un componente de la aplicación llamado `view` puede ser reemplazado con un componente que
+extienda de [[yii\base\View]] o [[yii\web\View]]. 
+Se puede hacer a través del archivo de configuración de la aplicación `config/web.php`:
 
 ```php
 return [
