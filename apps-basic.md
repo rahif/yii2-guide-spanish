@@ -1,74 +1,79 @@
-Basic application template
-==========================
+Plantilla básica de la aplicación
+=============================
 
-The basic Yii application template is a perfect fit for small projects or when you're just learning the framework.
+La aplicación Yii que utiliza la plantilla básica se ajusta perfectamente para pequeños proyectos o tan solo para aprender el framework.
 
-The basic application template includes four pages: a homepage, an about page, a contact page, and a login page.
-The contact page displays a contact form that users can fill in to submit their inquiries to the webmaster. Assuming the site has access to a mail server and that the administrator's email address is entered in the configuration file, the contact form will work. The same goes for the login page, which allows users to be authenticated before accessing privileged content.
+La plantilla básica de la aplicación incluye cuatro páginas: homepage, about , contact and login.
 
-Installation
+La página contact muestra un formulario de contacto que los usuarios pueden rellenar para enviar sus consultas al administrador del sitio web.
+Asumiendo que el sitio tiene acceso a un servidor de correo y que la dirección de email del administrador ha sido introducida en el archivo de
+configuración , el formulario de contacto funcionará. Lo mismo vale para la página de acceso (login), la cual permite a los usuarios ser autenticados
+antes de acceder al contenido privado.
+
+Instalación
 ------------
 
-Installation of the framework requires [Composer](http://getcomposer.org/). If you do not have Composer on your system yet, you may download it from
-[http://getcomposer.org/](http://getcomposer.org/), or run the following command on Linux/Unix/MacOS:
+La instalación del framework requiere [Composer](http://getcomposer.org/). Si no se tiene composer aún en el sistema es posible descargarlo
+desde [http://getcomposer.org/](http://getcomposer.org/), o ejecutar el siguiente comando en Linux/Unix/MacOS:
 
 ~~~
 curl -s http://getcomposer.org/installer | php
 ~~~
 
-You can then create a basic Yii application using the following :
+Para crear una aplicación que utilice la plantilla básica ejecuta el siguiente comando:
 
 ~~~
 php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic /path/to/yii-application
 ~~~
 
-Now set document root directory of your Web server to /path/to/yii-application/web and you should be able to access the application using the URL `http://localhost/`.
+Ahora configura el directorio raiz de los documentos del servidor web a /ruta/a/aplicacion-yii/web y debe ser posible acceder a la aplicación
+mediante la URL `http://localhost/`.
 
-Directory structure
--------------------
+Estructura del directorio
+----------------------
 
-The basic application does not divide application directories much. Here's the basic structure:
+La plantilla básica de una aplicación no divide mucho los directorios. Aquí se muestra la estructura básica:
 
-- `assets` - application asset files.
-  - `AppAsset.php` - definition of application assets such as CSS, JavaScript etc. Check [Managing assets](assets.md) for
-    details.
-- `commands` - console controllers.
-- `config` - configuration.
-- `controllers` - web controllers.
-- `models` - application models.
-- `runtime` - logs, states, file cache.
-- `views` - view templates.
+- `assets` - archivos públicos de la aplicación.
+  - `AppAsset.php` - definición de los activos de una aplicación (archivos públicos) como son CSS, JavaScript etc. Comprobar [Administración de assets](assets.md) para
+    más detalles.
+- `commands` - controladores de consola.
+- `config` - archivos de configuración.
+- `controllers` - controladores web.
+- `models` - modelos de la aplicación.
+- `runtime` - archivos de registro, archivos de estados temporales, archivos de caché.
+- `views` - plantillas de las vistas.
 - `web` - webroot.
 
-Root directory contains a set of files.
+El directorio raiz contiene un conjunto de ficheros.
 
-- `.gitignore` contains a list of directories ignored by git version system. If you need something never get to your source
-code repository, add it there.
-- `codeception.yml` - Codeception config.
-- `composer.json` - Composer config described in detail below.
-- `LICENSE.md` - license info. Put your project license there. Especially when opensourcing.
-- `README.md` - basic info about installing template. Consider replacing it with information about your project and its
-  installation.
-- `requirements.php` - Yii requirements checker.
-- `yii` - console application bootstrap.
-- `yii.bat` - same for Windows.
+- `.gitignore` contiene una lista de directorios ignorados por el sistema de versiones git. Si un código fuente no debe estar en
+  el repositorio, añadelo en este archivo.
+- `codeception.yml` - configuración de Codeception.
+- `composer.json` - configuración de Composer. (descrita en detalle más abajo).
+- `LICENSE.md` - información de la licencia. Poner la licencia del proyecto aquí. Especialmente si el código es libre (opensourcing).
+- `README.md` - información básica sobre la instalación de la aplicación. Considerar reemplazar con información del nuevo proyecto
+  y cambios en el proceso de instalación.
+- `requirements.php` - archivo que comprueba los requerimientos de Yii.
+- `yii` - archivo de arranque para iniciar la aplicación desde consola.
+- `yii.bat` - lo mismo para Windows.
 
 
 ### config
 
-This directory contains configuration files:
+Este directorio contiene los archivos de configuración:
 
-- `console.php` - console application configuration.
-- `params.php` - common application parameters.
-- `web.php` - web application configuration.
-- `web-test.php` - web application configuration used when running functional tests.
+- `console.php` - configuración de la aplicación utilizada al ejecutar comandos de consola.
+- `params.php` - parámetros generales de la aplicación.
+- `web.php` - configuración de la aplicación utilizada por el servidor web.
+- `web-test.php` - configuración de la aplicación utilizada al ejecutar pruebas funcionales.
 
-All these files are returning arrays used to configure corresponding application properties. Check
-[Configuration](configuration.md) guide section for details.
+Todos estos archivos devuelven un array que es utilizado para configurar las correspondientes propiedades de la aplicación-
+Comprobar la sección de la guía [Configuración](configuration.md) para más detalles.
 
 ### views
 
-Views directory contains templates your application is using. In the basic template there are:
+El directorio views contiene las plantillas de las vistas que utiliza la aplicación. En la plantilla básica de la aplicación:
 
 ```
 layouts
@@ -81,14 +86,15 @@ site
     login.php
 ```
 
-`layouts` contains HTML layouts i.e. page markup except content: doctype, head section, main menu, footer etc.
-The rest are typically controller views. By convention these are located in subdirectories matching controller id. For
-`SiteController` views are under `site`. Names of the views themselves are typically match controller action names.
-Partials are often named starting with underscore.
+`layouts` contiene los diseños HTML p.ej. los marcadores de la página excepto el contenido: doctype, head section, main menu, footer etc.
+El resto normalmente son vistas del controlador. Por convención están situadas en subdirectorios que coinciden con el id
+del controlador. Las vistas de `SiteController` están en el directorio `site`. Los nombres de las vistas normalmente se 
+hacen coincidir con los nombres de las acciones del controlador.
+Las vistas parciales a menudo son nombradas comenzando con el carácter de subrayado.
 
 ### web
 
-Directory is a webroot. Typically a webserver is pointed into it.
+Es el directorio raiz de la web y al que Normalmente apunta un servidor web.
 
 ```
 assets
@@ -97,19 +103,21 @@ index.php
 index-test.php
 ```
 
-`assets` contains published asset files such as CSS, JavaScript etc. Publishing process is automatic so you don't need
-to do anything with this directory other than making sure Yii has enough permissions to write to it.
+`assets` contiene archivos publicos como CSS, JavaScript etc. El proceso de publicación es automático por lo que no es necesario
+hacer nada con este directorio salvo asegurarse que Yii tiene suficientes permisos como para escribir en el.
 
-`css` contains plain CSS files and is useful for global CSS that isn't going to be compressed or merged by assets manager.
+`css` contiene archivos CSS planos y es utilizado para los archivos CSS globales que no van a ser comprimidos ni unidos mediante
+el administrador de activos (assets manager).
 
-`index.php` is the main web application bootstrap and is the central entry point for it. `index-test.php` is the entry
-point for functional testing.
+`index.php` es el archivo de inicio de la aplicación web y su punto de entrada. 
 
-Configuring Composer
---------------------
+`index-test.php` es el punto de entrada para pruebas funcionales (functional testing).
 
-After application template is installed it's a good idea to adjust default `composer.json` that can be found in the root
-directory:
+Configurando Composer
+-------------------
+
+Después de instalar la plantilla básica de la aplicación es una buena idea ajustar las opciones por defecto de `composer.json`,
+archivo que puede ser encontrado en el directorio raiz:
 
 ```json
 {
@@ -152,11 +160,13 @@ directory:
 }
 ```
 
-First we're updating basic information. Change `name`, `description`, `keywords`, `homepage` and `support` to match
-your project.
+Para empezar, actualizar la información básica. Cambiar los valores de las palabras clave `name`, `description`, `keywords`,
+`homepage` and `support` para que se ajusten al nuevo proyecto.
 
-Now the interesting part. You can add more packages your application needs to `require` section.
-All these packages are coming from [packagist.org](https://packagist.org/) so feel free to browse the website for useful code.
+Ahora la parte interesante. Se pueden añadir más paquetes a la aplicación en la sección `require`.
+Todos estos paquetes vienen de [packagist.org](https://packagist.org/) así que siéntete libre de navegar por el sitio web 
+buscando código útil. 
 
-After your `composer.json` is changed you can run `php composer.phar update --prefer-dist`, wait till packages are downloaded and
-installed and then just use them. Autoloading of classes will be handled automatically.
+Después de cambiar `composer.json` ejecutar `php composer.phar update --prefer-dist` para realizar los cambios, esperar hasta que
+los paquetes sean descargados e instalados y ya están listos para ser utilizados.
+La autocarga de clases será manejada automáticamente.
